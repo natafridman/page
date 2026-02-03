@@ -83,9 +83,8 @@
 
         .product-title-overlay {
             position: absolute;
-            bottom: 8%;
-            right: -10%;
-            background: rgba(255, 255, 255, 0.85);
+            bottom: 2%;
+            right: 2%;
             padding: 2.5rem 3.5rem;
             backdrop-filter: blur(20px) saturate(180%);
             transform: translateX(100%);
@@ -96,7 +95,7 @@
 
         .product-section:nth-child(even) .product-title-overlay {
             right: auto;
-            left: -10%;
+            left: -2%;
             transform: translateX(-100%);
         }
 
@@ -335,7 +334,9 @@
     <section class="product-section">
         <div class="hero-side">
             <div class="hero-image-wrapper">
-                <img src="maletita.mp4" alt="Billetera minimalista" class="hero-image">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="maletita.mp4" type="video/mp4">
+                </video>
                 <div class="product-title-overlay">
                     <div class="product-subtitle">Minimalismo Funcional</div>
                     <h2>Billetera Slim</h2>
