@@ -583,71 +583,115 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background-color: rgba(0, 0, 0, 0);
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            padding: 60px 20px 20px 20px;
         }
 
         .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.9);
         }
 
         .modal-content {
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            animation: modalZoom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 90vw;
+            max-height: 85vh;
+            width: auto;
+            height: auto;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
         }
 
-        @keyframes modalZoom {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+        .modal.show .modal-content {
+            transform: scale(1);
+            opacity: 1;
         }
 
         .modal-content img {
             width: 100%;
             height: 100%;
+            max-width: 90vw;
+            max-height: 85vh;
             object-fit: contain;
             border-radius: 8px;
         }
 
         .modal-close {
-            position: absolute;
-            top: -50px;
-            right: 0;
+            position: fixed;
+            top: 20px;
+            right: 20px;
             color: #ffffff;
-            font-size: 40px;
+            font-size: 45px;
             font-weight: 300;
             cursor: pointer;
-            transition: opacity 0.3s ease;
-            background: none;
-            border: none;
-            padding: 0;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 10001;
             line-height: 1;
+            padding: 0;
         }
 
         .modal-close:hover {
-            opacity: 0.7;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+            border-color: rgba(255, 255, 255, 0.6);
         }
 
         @media (max-width: 640px) {
+            .modal {
+                padding: 70px 10px 10px 10px;
+            }
+            
+            .modal-content {
+                max-width: 95vw;
+                max-height: 80vh;
+            }
+            
+            .modal-content img {
+                max-width: 95vw;
+                max-height: 80vh;
+            }
+            
             .modal-close {
-                top: -40px;
-                font-size: 35px;
+                top: 15px;
+                right: 15px;
+                font-size: 40px;
+                width: 45px;
+                height: 45px;
             }
         }
     </style>
 </head>
 <body>
+<script>
+// Definir función global INMEDIATAMENTE para que onClick funcione
+window.openImageModal = function(imageSrc) {
+    console.log('🟢 Abriendo modal con:', imageSrc);
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    if (modal && modalImg) {
+        modalImg.src = imageSrc;
+        modal.style.display = "flex";
+        setTimeout(function() { 
+            modal.classList.add("show"); 
+        }, 10);
+        document.body.style.overflow = "hidden";
+    } else {
+        console.error('❌ Modal elements not found');
+    }
+};
+console.log('✅ openImageModal definida');
+</script>
     <!-- Header -->
     <header class="main-header">
         <div class="header-container">
@@ -681,22 +725,22 @@
                 <p>Artesanía excepcional en cada detalle. Cuero genuino de grano completo, costuras reforzadas a mano y herrajes de alta resistencia. Diseñado para acompañarte en cada viaje.</p>
             </div>
              <div class="gallery-grid">
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="G28A0280.jpeg" alt="Bolso en contexto urbano">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1576.jpeg" alt="Vista frontal completa">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1579.jpeg" alt="Vista lateral con correa">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1581.jpeg" alt="Detalle cierre y herrajes">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1583.jpeg" alt="Detalle costuras y asas">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1585.jpeg" alt="Vista en perspectiva">
                 </div>
             </div>
@@ -722,22 +766,22 @@
                 <p>Redefiniendo lo esencial. Diseño ultra delgado con capacidad inteligente. Cuero de primera calidad que envejece con gracia, revelando carácter único con cada uso.</p>
             </div>
              <div class="gallery-grid">
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="G28A0280.jpeg" alt="Bolso en contexto urbano">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1576.jpeg" alt="Vista frontal completa">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1579.jpeg" alt="Vista lateral con correa">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1581.jpeg" alt="Detalle cierre y herrajes">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1583.jpeg" alt="Detalle costuras y asas">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1585.jpeg" alt="Vista en perspectiva">
                 </div>
             </div>
@@ -763,22 +807,22 @@
                 <p>Donde la funcionalidad se encuentra con el estilo refinado. Diseñada para la vida moderna con compartimientos inteligentes, protección acolchada y durabilidad excepcional.</p>
             </div>
              <div class="gallery-grid">
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="G28A0280.jpeg" alt="Bolso en contexto urbano">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1576.jpeg" alt="Vista frontal completa">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1579.jpeg" alt="Vista lateral con correa">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1581.jpeg" alt="Detalle cierre y herrajes">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1583.jpeg" alt="Detalle costuras y asas">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
                     <img src="IMG_1585.jpeg" alt="Vista en perspectiva">
                 </div>
             </div>
@@ -818,7 +862,7 @@
                 <div class="footer-section">
                     <h4 class="footer-subtitle">Contacto</h4>
                     <ul class="footer-links">
-                        <li><a href="mailto:fridmannataniel@hotmail.com">fridmannataniel@hotmail.com</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#0c6a7e6568616d62626d786d626569604c646378616d6560226f6361"><span class="__cf_email__" data-cfemail="aaccd8c3cec7cbc4c4cbdecbc4c3cfc6eac2c5dec7cbc3c684c9c5c7">[email&#160;protected]</span></a></li>
                         <li><a href="tel:+5491153445155">+54 9 11 5344-5155</a></li>
                         <li>Buenos Aires, Argentina</li>
                     </ul>
@@ -851,117 +895,145 @@
         </div>
     </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 
 <script>
-    let lastScrollY = window.scrollY;
-    let scrollTimer = null;
-    const header = document.querySelector('.main-header');
-    const scrollThreshold = 100; // Píxeles antes de que el header reaccione
-    
-    function handleScroll() {
-        const currentScrollY = window.scrollY;
+    // ===== HEADER SCROLL FUNCTIONALITY =====
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('📄 DOM Cargado - Inicializando...');
         
-        // Si estamos en el top, siempre mostrar el header
-        if (currentScrollY < 10) {
-            header.classList.remove('header-hidden');
+        let lastScrollY = window.scrollY;
+        let scrollTimer = null;
+        const header = document.querySelector('.main-header');
+        const scrollThreshold = 100; // Píxeles antes de que el header reaccione
+        
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
+            
+            // Si estamos en el top, siempre mostrar el header
+            if (currentScrollY < 10) {
+                header.classList.remove('header-hidden');
+                lastScrollY = currentScrollY;
+                return;
+            }
+            
+            // Solo reaccionar después de cierto umbral
+            if (Math.abs(currentScrollY - lastScrollY) < 5) {
+                return;
+            }
+            
+            // Scroll hacia abajo - ocultar con delay
+            if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+                if (scrollTimer) clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => {
+                    header.classList.add('header-hidden');
+                }, 150); // Delay de 150ms antes de ocultar
+            } 
+            // Scroll hacia arriba - mostrar inmediatamente
+            else if (currentScrollY < lastScrollY) {
+                if (scrollTimer) clearTimeout(scrollTimer);
+                header.classList.remove('header-hidden');
+            }
+            
             lastScrollY = currentScrollY;
-            return;
         }
         
-        // Solo reaccionar después de cierto umbral
-        if (Math.abs(currentScrollY - lastScrollY) < 5) {
-            return;
-        }
-        
-        // Scroll hacia abajo - ocultar con delay
-        if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
-            if (scrollTimer) clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(() => {
-                header.classList.add('header-hidden');
-            }, 150); // Delay de 150ms antes de ocultar
-        } 
-        // Scroll hacia arriba - mostrar inmediatamente
-        else if (currentScrollY < lastScrollY) {
-            if (scrollTimer) clearTimeout(scrollTimer);
-            header.classList.remove('header-hidden');
-        }
-        
-        lastScrollY = currentScrollY;
-    }
-    
-    // Usar requestAnimationFrame para mejor performance
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-
-    // Modal functionality
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    const modalClose = document.getElementById('modalClose');
-    const galleryItems = document.querySelectorAll('.gallery-item img');
-
-    // Abrir modal al hacer click en imagen
-    galleryItems.forEach(img => {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', function() {
-            modal.style.display = 'flex';
-            modalImg.src = this.src;
-            setTimeout(() => {
-                modal.classList.add('show');
-            }, 10);
+        // Usar requestAnimationFrame para mejor performance
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
         });
-    });
 
-    // Cerrar modal con X
-    modalClose.addEventListener('click', function() {
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 300);
-    });
+        // ===== MODAL FUNCTIONALITY =====
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const galleryItems = document.querySelectorAll('.gallery-item img');
 
-    // Cerrar modal al hacer click fuera de la imagen
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
+        // Función para cerrar el modal
+        function closeModal() {
+            console.log('🔴 Cerrando modal');
+            if (!modal) return;
             modal.classList.remove('show');
-            setTimeout(() => {
+            setTimeout(function() {
                 modal.style.display = 'none';
+                if (modalImg) modalImg.src = '';
             }, 300);
+            document.body.style.overflow = '';
         }
-    });
 
-    // Cerrar modal con tecla ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
+        // Abrir modal al hacer click en imagen (backup del onClick)
+        galleryItems.forEach(function(img) {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function() {
+                console.log('🖱️ Click en imagen detectado');
+                openImageModal(this.src);
+            });
+        });
+
+        // Cerrar modal con X
+        if (modalClose) {
+            modalClose.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('❌ Click en X');
+                closeModal();
+            });
         }
-    });
 
-    // Contact form functionality
-    const contactForm = document.getElementById('contactForm');
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+        // Cerrar modal al hacer click fuera de la imagen
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    console.log('🖱️ Click fuera del modal');
+                    closeModal();
+                }
+            });
+        }
+
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
+                console.log('⌨️ ESC presionado');
+                closeModal();
+            }
+        });
+
+        console.log('✅ Modal completamente inicializado');
+
+        // ===== CONTACT FORM FUNCTIONALITY =====
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const message = document.getElementById('contactMessage').value;
+                
+                const subject = encodeURIComponent(`Mensaje de ${name}`);
+                const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`);
+                
+                const whatsappNumber = '5491153445155';
+                const whatsappURL = `https://wa.me/${whatsappNumber}?text=${subject}%0A%0A${body}`;
+                
+                window.open(whatsappURL, '_blank');
+                
+                contactForm.reset();
+            });
+            console.log('✅ Formulario de contacto inicializado');
+        } else {
+            console.error('❌ Formulario de contacto no encontrado');
+        }
         
-        const name = document.getElementById('contactName').value;
-        const email = document.getElementById('contactEmail').value;
-        const message = document.getElementById('contactMessage').value;
-        
-        const subject = encodeURIComponent(`Mensaje de ${name}`);
-        const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`);
-        
-        window.location.href = `mailto:fridmannataniel@hotmail.com?subject=${subject}&body=${body}`;
+        console.log('🎉 Todos los sistemas inicializados');
     });
 </script>
 
+</body>
 </html>
