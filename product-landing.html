@@ -32,6 +32,59 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Header Styles */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(0);
+        }
+
+        .main-header.header-hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
         .product-section {
             min-height: 100vh;
             display: flex;
@@ -83,24 +136,41 @@
 
         .product-title-overlay {
             position: absolute;
-            bottom: 2%;
-            right: 2%;
+            bottom: 8%;
+            right: -5%;
+            background: rgba(255, 255, 255, 0.85);
             padding: 2.5rem 3.5rem;
             backdrop-filter: blur(20px) saturate(180%);
-            transform: translateX(100%);
+            transform: translateX(0);
+            opacity: 0;
             animation: slideInTitle 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
             border-radius: 16px;
         }
 
+        @keyframes slideInTitle {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .product-section:nth-child(even) .product-title-overlay {
             right: auto;
-            left: -2%;
-            transform: translateX(-100%);
+            left: -5%;
         }
 
         @keyframes slideInTitle {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
             to {
+                opacity: 1;
                 transform: translateX(0);
             }
         }
@@ -227,6 +297,23 @@
 
         /* Responsive Design */
         @media (max-width: 1024px) {
+            .main-header {
+                height: 60px;
+            }
+
+            .header-container {
+                padding: 0 1.5rem;
+            }
+
+            .logo svg {
+                width: 28px;
+                height: 28px;
+            }
+
+            .logo-text {
+                font-size: 1rem;
+            }
+
             .product-section {
                 flex-direction: column !important;
             }
@@ -258,6 +345,23 @@
         }
 
         @media (max-width: 640px) {
+            .main-header {
+                height: 56px;
+            }
+
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .logo svg {
+                width: 26px;
+                height: 26px;
+            }
+
+            .logo-text {
+                font-size: 0.95rem;
+            }
+
             .gallery-side {
                 padding: 2rem 1.5rem;
             }
@@ -286,9 +390,207 @@
                 left: 1rem;
             }
         }
+
+        /* Footer Styles */
+        .main-footer {
+            background: var(--text-primary);
+            color: var(--primary-light);
+            padding: 5rem 2rem 2rem;
+            margin-top: 0;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-subtitle {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 400px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-light);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-links li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-input,
+        .form-textarea {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.875rem 1.25rem;
+            color: var(--primary-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-button {
+            background: var(--primary-light);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            padding: 0.875rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-button:hover {
+            background: var(--surface-gray);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer Responsive */
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+
+            .footer-form-section {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .main-footer {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .footer-form-section {
+                grid-column: 1;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="12" width="24" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M12 12V10C12 8.89543 12.8954 8 14 8H26C27.1046 8 28 8.89543 28 10V12" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="20" cy="20" r="2" fill="currentColor"/>
+                </svg>
+                <span class="logo-text">LEATHER CO</span>
+            </div>
+        </div>
+    </header>
+
     <!-- Producto 1 -->
     <section class="product-section">
         <div class="hero-side">
@@ -307,7 +609,7 @@
             <div class="description-text">
                 <p>Artesanía excepcional en cada detalle. Cuero genuino de grano completo, costuras reforzadas a mano y herrajes de alta resistencia. Diseñado para acompañarte en cada viaje.</p>
             </div>
-            <div class="gallery-grid">
+             <div class="gallery-grid">
                 <div class="gallery-item">
                     <img src="G28A0280.jpeg" alt="Bolso en contexto urbano">
                 </div>
@@ -335,7 +637,7 @@
         <div class="hero-side">
             <div class="hero-image-wrapper">
                 <video autoplay muted loop playsinline class="hero-image">
-                    <source src="maletita.mp4" type="video/mp4">
+                    <source src="2026-02-03T00-10-31_professional_studio_watermarked.mp4" type="video/mp4">
                 </video>
                 <div class="product-title-overlay">
                     <div class="product-subtitle">Minimalismo Funcional</div>
@@ -348,24 +650,24 @@
             <div class="description-text">
                 <p>Redefiniendo lo esencial. Diseño ultra delgado con capacidad inteligente. Cuero de primera calidad que envejece con gracia, revelando carácter único con cada uso.</p>
             </div>
-            <div class="gallery-grid">
+             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="IMG_1571.jpeg" alt="Vista cerrada">
+                    <img src="G28A0280.jpeg" alt="Bolso en contexto urbano">
                 </div>
                 <div class="gallery-item">
-                    <img src="IMG_1572.jpeg" alt="Interior compartimientos">
+                    <img src="IMG_1576.jpeg" alt="Vista frontal completa">
                 </div>
                 <div class="gallery-item">
-                    <img src="IMG_1574.jpeg" alt="Detalle costuras">
+                    <img src="IMG_1579.jpeg" alt="Vista lateral con correa">
                 </div>
                 <div class="gallery-item">
-                    <img src="IMG_1571.jpeg" alt="Vista cerrada">
+                    <img src="IMG_1581.jpeg" alt="Detalle cierre y herrajes">
                 </div>
                 <div class="gallery-item">
-                    <img src="IMG_1572.jpeg" alt="Interior compartimientos">
+                    <img src="IMG_1583.jpeg" alt="Detalle costuras y asas">
                 </div>
                 <div class="gallery-item">
-                    <img src="IMG_1574.jpeg" alt="Detalle costuras">
+                    <img src="IMG_1585.jpeg" alt="Vista en perspectiva">
                 </div>
             </div>
         </div>
@@ -375,7 +677,9 @@
     <section class="product-section">
         <div class="hero-side">
             <div class="hero-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1200&h=1600&fit=crop" alt="Mochila de cuero" class="hero-image">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="2026-02-03T00-10-31_professional_studio_watermarked.mp4" type="video/mp4">
+                </video>
                 <div class="product-title-overlay">
                     <div class="product-subtitle">Versatilidad Premium</div>
                     <h2>Mochila Urbana</h2>
@@ -387,27 +691,136 @@
             <div class="description-text">
                 <p>Donde la funcionalidad se encuentra con el estilo refinado. Diseñada para la vida moderna con compartimientos inteligentes, protección acolchada y durabilidad excepcional.</p>
             </div>
-            <div class="gallery-grid">
+             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=400&h=400&fit=crop" alt="Vista frontal">
+                    <img src="G28A0280.jpeg" alt="Bolso en contexto urbano">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1622560480654-d96214fdc887?w=400&h=400&fit=crop" alt="Compartimientos internos">
+                    <img src="IMG_1576.jpeg" alt="Vista frontal completa">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop" alt="Detalles herrajes">
+                    <img src="IMG_1579.jpeg" alt="Vista lateral con correa">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop" alt="Correas ajustables">
+                    <img src="IMG_1581.jpeg" alt="Detalle cierre y herrajes">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=400&h=400&fit=crop" alt="Bolsillos externos">
+                    <img src="IMG_1583.jpeg" alt="Detalle costuras y asas">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1546938576-6e6a64f317cc?w=400&h=400&fit=crop" alt="Vista lateral">
+                    <img src="IMG_1585.jpeg" alt="Vista en perspectiva">
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <!-- Información de la empresa -->
+                <div class="footer-section">
+                    <h3 class="footer-title">LEATHER CO</h3>
+                    <p class="footer-text">Artesanía excepcional en cuero premium. Cada pieza es diseñada y confeccionada con dedicación para acompañarte en tu día a día.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Información de contacto -->
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Contacto</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@leatherco.com">info@leatherco.com</a></li>
+                        <li><a href="tel:+5491112345678">+54 9 11 1234-5678</a></li>
+                        <li>Buenos Aires, Argentina</li>
+                    </ul>
+                </div>
+
+                <!-- Formulario de contacto -->
+                <div class="footer-section footer-form-section">
+                    <h4 class="footer-subtitle">Envianos un mensaje</h4>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Nombre" class="form-input" required>
+                        <input type="email" placeholder="Email" class="form-input" required>
+                        <textarea placeholder="Mensaje" class="form-textarea" rows="4" required></textarea>
+                        <button type="submit" class="form-button">Enviar</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 Leather Co. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 </body>
+
+<script>
+    let lastScrollY = window.scrollY;
+    let scrollTimer = null;
+    const header = document.querySelector('.main-header');
+    const scrollThreshold = 100; // Píxeles antes de que el header reaccione
+    
+    function handleScroll() {
+        const currentScrollY = window.scrollY;
+        
+        // Si estamos en el top, siempre mostrar el header
+        if (currentScrollY < 10) {
+            header.classList.remove('header-hidden');
+            lastScrollY = currentScrollY;
+            return;
+        }
+        
+        // Solo reaccionar después de cierto umbral
+        if (Math.abs(currentScrollY - lastScrollY) < 5) {
+            return;
+        }
+        
+        // Scroll hacia abajo - ocultar con delay
+        if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+            if (scrollTimer) clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+                header.classList.add('header-hidden');
+            }, 150); // Delay de 150ms antes de ocultar
+        } 
+        // Scroll hacia arriba - mostrar inmediatamente
+        else if (currentScrollY < lastScrollY) {
+            if (scrollTimer) clearTimeout(scrollTimer);
+            header.classList.remove('header-hidden');
+        }
+        
+        lastScrollY = currentScrollY;
+    }
+    
+    // Usar requestAnimationFrame para mejor performance
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+</script>
+
 </html>
