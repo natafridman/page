@@ -137,8 +137,8 @@
         .product-title-overlay {
             position: absolute;
             bottom: 8%;
-            right: -3%;
-            /*background: rgba(255, 255, 255, 0.85);*/
+            right: -5%;
+            background: rgba(255, 255, 255, 0.85);
             padding: 2.5rem 3.5rem;
             backdrop-filter: blur(20px) saturate(180%);
             transform: translateX(0);
@@ -161,7 +161,7 @@
 
         .product-section:nth-child(even) .product-title-overlay {
             right: auto;
-            left: -3%;
+            left: -5%;
         }
 
         @keyframes slideInTitle {
@@ -289,7 +289,7 @@
             font-size: clamp(5rem, 10vw, 8rem);
             font-weight: 600;
             color: var(--text-primary);
-            opacity: 0.13;
+            opacity: 0.03;
             line-height: 1;
             z-index: 0;
             pointer-events: none;
@@ -332,7 +332,7 @@
             }
 
             .product-title-overlay {
-                right: 3% !important;
+                right: 5% !important;
                 left: auto !important;
                 bottom: 5%;
                 padding: 1.8rem 2.5rem;
@@ -574,6 +574,77 @@
                 grid-column: 1;
             }
         }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            animation: modalZoom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalZoom {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 640px) {
+            .modal-close {
+                top: -40px;
+                font-size: 35px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -586,12 +657,10 @@
                     <path d="M12 12V10C12 8.89543 12.8954 8 14 8H26C27.1046 8 28 8.89543 28 10V12" stroke="currentColor" stroke-width="1.5"/>
                     <circle cx="20" cy="20" r="2" fill="currentColor"/>
                 </svg>
-                <span class="logo-text">LEATHER CO</span>
+                <span class="logo-text">YAGO & NATA CO</span>
             </div>
         </div>
     </header>
-
-    </br></br>
 
     <!-- Producto 1 -->
     <section class="product-section">
@@ -722,7 +791,7 @@
             <div class="footer-content">
                 <!-- Información de la empresa -->
                 <div class="footer-section">
-                    <h3 class="footer-title">LEATHER CO</h3>
+                    <h3 class="footer-title">YAGO & NATA CO</h3>
                     <p class="footer-text">Artesanía excepcional en cuero premium. Cada pieza es diseñada y confeccionada con dedicación para acompañarte en tu día a día.</p>
                     <div class="footer-social">
                         <a href="#" class="social-link" aria-label="Instagram">
@@ -737,9 +806,9 @@
                                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                             </svg>
                         </a>
-                        <a href="#" class="social-link" aria-label="WhatsApp">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        <a href="https://wa.me/5491153445155?text=Hola!%20Estoy%20interesado%20en%20uno%20de%20los%20productos%20de%20su%20marca" class="social-link" aria-label="WhatsApp" target="_blank">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                             </svg>
                         </a>
                     </div>
@@ -749,8 +818,8 @@
                 <div class="footer-section">
                     <h4 class="footer-subtitle">Contacto</h4>
                     <ul class="footer-links">
-                        <li><a href="mailto:info@leatherco.com">info@leatherco.com</a></li>
-                        <li><a href="tel:+5491112345678">+54 9 11 1234-5678</a></li>
+                        <li><a href="mailto:fridmannataniel@hotmail.com">fridmannataniel@hotmail.com</a></li>
+                        <li><a href="tel:+5491153445155">+54 9 11 5344-5155</a></li>
                         <li>Buenos Aires, Argentina</li>
                     </ul>
                 </div>
@@ -758,10 +827,10 @@
                 <!-- Formulario de contacto -->
                 <div class="footer-section footer-form-section">
                     <h4 class="footer-subtitle">Envianos un mensaje</h4>
-                    <form class="contact-form">
-                        <input type="text" placeholder="Nombre" class="form-input" required>
-                        <input type="email" placeholder="Email" class="form-input" required>
-                        <textarea placeholder="Mensaje" class="form-textarea" rows="4" required></textarea>
+                    <form class="contact-form" id="contactForm">
+                        <input type="text" name="nombre" id="contactName" placeholder="Nombre" class="form-input" required>
+                        <input type="email" name="email" id="contactEmail" placeholder="Email" class="form-input" required>
+                        <textarea name="mensaje" id="contactMessage" placeholder="Mensaje" class="form-textarea" rows="4" required></textarea>
                         <button type="submit" class="form-button">Enviar</button>
                     </form>
                 </div>
@@ -769,11 +838,20 @@
 
             <!-- Copyright -->
             <div class="footer-bottom">
-                <p>&copy; 2026 Leather Co. Todos los derechos reservados.</p>
+                <p>&copy; 2026 Yago & Nata Co. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
-</body>
+
+    <!-- Modal para imágenes -->
+    <div id="imageModal" class="modal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Imagen ampliada">
+        </div>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
 
 <script>
     let lastScrollY = window.scrollY;
@@ -822,6 +900,67 @@
             });
             ticking = true;
         }
+    });
+
+    // Modal functionality
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalClose = document.getElementById('modalClose');
+    const galleryItems = document.querySelectorAll('.gallery-item img');
+
+    // Abrir modal al hacer click en imagen
+    galleryItems.forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function() {
+            modal.style.display = 'flex';
+            modalImg.src = this.src;
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        });
+    });
+
+    // Cerrar modal con X
+    modalClose.addEventListener('click', function() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    });
+
+    // Cerrar modal al hacer click fuera de la imagen
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+    });
+
+    // Cerrar modal con tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+    });
+
+    // Contact form functionality
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const message = document.getElementById('contactMessage').value;
+        
+        const subject = encodeURIComponent(`Mensaje de ${name}`);
+        const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`);
+        
+        window.location.href = `mailto:fridmannataniel@hotmail.com?subject=${subject}&body=${body}`;
     });
 </script>
 
