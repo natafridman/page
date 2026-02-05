@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo 3 | YAGO & NATA CO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&family=SF+Pro+Text:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f5f7;
+            --ink: #1d1d1f;
+            --muted: #6e6e73;
+            --card: #ffffff;
+            --edge: rgba(0, 0, 0, 0.08);
+            --highlight: #0071e3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+            color: var(--ink);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(245, 245, 247, 0.9);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--edge);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.9rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand {
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            font-size: 0.95rem;
+        }
+
+        .pill {
+            font-size: 0.75rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 2rem;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: clamp(2.6rem, 5vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            margin-top: 1rem;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.5vw, 1.15rem);
+            line-height: 1.7;
+            max-width: 560px;
+        }
+
+        .hero-card {
+            background: var(--card);
+            border-radius: 18px;
+            border: 1px solid var(--edge);
+            padding: 1.5rem;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .hero-card h3 {
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-card ul {
+            list-style: none;
+            display: grid;
+            gap: 0.65rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 3rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 18px;
+            border: 1px solid var(--edge);
+            overflow: hidden;
+            display: grid;
+            gap: 1rem;
+            min-height: 520px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .card.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .media {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #e7e7ea;
+        }
+
+        .media img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .media img.active {
+            opacity: 1;
+        }
+
+        .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .body {
+            display: grid;
+            gap: 0.6rem;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+        }
+
+        .title {
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .desc {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            background: #f0f0f2;
+            font-size: 0.75rem;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 1rem 1.5rem 3rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: 480px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="brand">YAGO & NATA CO</div>
+            <div class="pill">Catálogo 2026</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Diseño silencioso. Calidad visible.</h1>
+            <p>Una selección compacta con estética limpia y materiales de primera. Cada pieza está pensada para acompañar un ritmo moderno sin perder su carácter artesanal.</p>
+        </div>
+        <div class="hero-card">
+            <h3>Hecho para usar</h3>
+            <ul>
+                <li>Cuero premium, tacto suave y durabilidad real.</li>
+                <li>Detalles metálicos resistentes y costuras reforzadas.</li>
+                <li>Diseño funcional y elegante para el día a día.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="grid">
+        <article class="card">
+            <div class="media" data-index="0">
+                <span class="badge">01</span>
+                <img class="active" src="images/bolso/G28A0280.jpeg" alt="Bolso Duffle en exterior">
+                <img src="images/bolso/IMG_1576.jpeg" alt="Bolso Duffle vista frontal">
+                <img src="images/bolso/IMG_1579.jpeg" alt="Bolso Duffle vista lateral">
+                <img src="images/bolso/IMG_1581.jpeg" alt="Bolso Duffle detalle de cierre">
+            </div>
+            <div class="body">
+                <div class="subtitle">Cuero Para Viajar</div>
+                <div class="title">Bolso Duffle</div>
+                <p class="desc">Espacioso y resistente, con herrajes fuertes y acabado premium. Ideal para escapadas y viajes largos.</p>
+                <div class="tags">
+                    <span class="tag">Grano completo</span>
+                    <span class="tag">Alta capacidad</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="media" data-index="0">
+                <span class="badge">02</span>
+                <img class="active" src="images/maletin/IMG_1571.jpeg" alt="Maletín Ejecutivo vista general">
+                <img src="images/maletin/IMG_1572.jpeg" alt="Maletín Ejecutivo vista frontal">
+                <img src="images/maletin/IMG_1574.jpeg" alt="Maletín Ejecutivo vista lateral">
+                <img src="images/maletin/IMG_1571.jpeg" alt="Maletín Ejecutivo detalle de costuras">
+            </div>
+            <div class="body">
+                <div class="subtitle">Organización Ejecutiva</div>
+                <div class="title">Maletín Ejecutivo</div>
+                <p class="desc">Compartimentos inteligentes para notebook y documentos, con estructura firme y cierre seguro.</p>
+                <div class="tags">
+                    <span class="tag">Business</span>
+                    <span class="tag">Estructura rígida</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="media" data-index="0">
+                <span class="badge">03</span>
+                <img class="active" src="images/mochila/LONDON.jpeg" alt="Mochila London vista general">
+                <img src="images/mochila/LONDON(1).jpeg" alt="Mochila London vista frontal">
+                <img src="images/mochila/LONDON(2).jpeg" alt="Mochila London vista lateral">
+                <img src="images/mochila/MOCHILA LONDON.jpg" alt="Mochila London detalle de material">
+            </div>
+            <div class="body">
+                <div class="subtitle">Movimiento Urbano</div>
+                <div class="title">Mochila London</div>
+                <p class="desc">Ligera y elegante, con compartimientos cómodos y respaldo acolchado para el día a día.</p>
+                <div class="tags">
+                    <span class="tag">Urbana</span>
+                    <span class="tag">Confort</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="media" data-index="0">
+                <span class="badge">04</span>
+                <img class="active" src="images/morral/MONACO.jpeg" alt="Morral Monaco vista general">
+                <img src="images/morral/MONACO_vfirst.jpeg" alt="Morral Monaco vista frontal">
+                <img src="images/morral/MONACO_vlast.jpeg" alt="Morral Monaco vista posterior">
+                <img src="images/morral/MORRAL MONACO.png" alt="Morral Monaco detalle de diseño">
+            </div>
+            <div class="body">
+                <div class="subtitle">Estilo Diario</div>
+                <div class="title">Morral Monaco</div>
+                <p class="desc">Compacto y sofisticado, pensado para llevar lo esencial con un look minimalista.</p>
+                <div class="tags">
+                    <span class="tag">Compacto</span>
+                    <span class="tag">Urbano</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="media" data-index="0">
+                <span class="badge">05</span>
+                <img class="active" src="images/necessaire/LISBOA.jpeg" alt="Neceser Lisboa vista general">
+                <img src="images/necessaire/LISBOA(1).jpeg" alt="Neceser Lisboa vista frontal">
+                <img src="images/necessaire/LISBOA_vfirst.jpeg" alt="Neceser Lisboa vista superior">
+                <img src="images/necessaire/NECCESER LISBOA.png" alt="Neceser Lisboa detalle de cierre">
+            </div>
+            <div class="body">
+                <div class="subtitle">Orden de Viaje</div>
+                <div class="title">Neceser Lisboa</div>
+                <p class="desc">Formato práctico con cierre seguro y forro fácil de limpiar. Ideal para grooming y esenciales.</p>
+                <div class="tags">
+                    <span class="tag">Compacto</span>
+                    <span class="tag">Organización</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="media" data-index="0">
+                <span class="badge">06</span>
+                <img class="active" src="images/portadocumentos/portadocumento_vfirst.jpg" alt="Portadocumentos Madrid vista general">
+                <img src="images/portadocumentos/portadocumento_vlast.jpg" alt="Portadocumentos Madrid vista posterior">
+                <img src="images/portadocumentos/PASAPORTE MADRID.png" alt="Portadocumentos Madrid detalle de pasaporte">
+                <img src="images/portadocumentos/rac_0592-fed71bc31494c9ac2817136961102613-1024-1024.webp" alt="Portadocumentos Madrid detalle de cuero">
+            </div>
+            <div class="body">
+                <div class="subtitle">Viaje Seguro</div>
+                <div class="title">Portadocumentos Madrid</div>
+                <p class="desc">Pasaporte, tarjetas y boarding pass siempre a mano, con un diseño sobrio y funcional.</p>
+                <div class="tags">
+                    <span class="tag">Travel</span>
+                    <span class="tag">Protección</span>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <footer>
+        YAGO & NATA CO · Artesanía en cuero premium · Buenos Aires
+    </footer>
+
+    <script>
+        const cards = document.querySelectorAll(".card");
+        const observers = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("reveal");
+                    observers.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        cards.forEach((card) => observers.observe(card));
+
+        const carousels = document.querySelectorAll(".media");
+        carousels.forEach((carousel) => {
+            const images = carousel.querySelectorAll("img");
+            let index = 0;
+            let startX = 0;
+            let deltaX = 0;
+            let isDragging = false;
+
+            const showImage = (next) => {
+                images[index].classList.remove("active");
+                index = (next + images.length) % images.length;
+                images[index].classList.add("active");
+            };
+
+            carousel.addEventListener("click", () => {
+                if (!isDragging) {
+                    showImage(index + 1);
+                }
+            });
+
+            carousel.addEventListener("touchstart", (e) => {
+                if (e.touches.length !== 1) return;
+                startX = e.touches[0].clientX;
+                deltaX = 0;
+                isDragging = true;
+            }, { passive: true });
+
+            carousel.addEventListener("touchmove", (e) => {
+                if (!isDragging) return;
+                deltaX = e.touches[0].clientX - startX;
+            }, { passive: true });
+
+            carousel.addEventListener("touchend", () => {
+                if (!isDragging) return;
+                if (Math.abs(deltaX) > 30) {
+                    if (deltaX < 0) {
+                        showImage(index + 1);
+                    } else {
+                        showImage(index - 1);
+                    }
+                }
+                isDragging = false;
+            });
+        });
+    </script>
+</body>
+</html>
