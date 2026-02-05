@@ -701,7 +701,7 @@ async function detectAvailableImages(productFolder) {
         
         links.forEach(link => {
             const href = link.getAttribute('href');
-            if (href && /\.(jpg|jpeg|png|webp|gif)$/i.test(href) && href !== 'hero.jpg') {
+            if (href && /\.(jpg|jpeg|png|webp|gif)$/i.test(href) && href !== 'IMG_1576.jpeg') {
                 availableImages.push(href);
             }
         });
