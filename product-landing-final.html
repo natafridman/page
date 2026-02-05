@@ -686,21 +686,38 @@ const PRODUCTS_TO_LOAD = [
     }
 }
 
-// ===== DETECT AVAILABLE IMAGES (1-6) =====
+// ===== DETECT AVAILABLE IMAGES BY SCANNING FOLDER =====
 async function detectAvailableImages(productFolder) {
     const availableImages = [];
     
-    // Intentar cargar hasta 6 imágenes
-    for (let i = 1; i <= 6; i++) {
-        try {
-            const imgPath = `${IMAGES_FOLDER}/${productFolder}/img${i}.jpg`;
-            const response = await fetch(imgPath, { method: 'HEAD' });
-            if (response.ok) {
-                availableImages.push(i);
+    try {
+        const response = await fetch(`${IMAGES_FOLDER}/${productFolder}/`);
+        const html = await response.text();
+        
+        // Parse HTML to find image files
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const links = doc.querySelectorAll('a');
+        
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && /\.(jpg|jpeg|png|webp|gif)$/i.test(href) && href !== 'hero.jpg') {
+                availableImages.push(href);
             }
-        } catch (error) {
-            // Imagen no existe, continuar
-            break;
+        });
+    } catch (error) {
+        console.warn(`Could not scan folder ${productFolder}, using fallback method`);
+        
+        // Fallback: try common image names
+        for (let i = 1; i <= 6; i++) {
+            try {
+                const response = await fetch(`${IMAGES_FOLDER}/${productFolder}/img${i}.jpg`, { method: 'HEAD' });
+                if (response.ok) {
+                    availableImages.push(`img${i}.jpg`);
+                }
+            } catch (e) {
+                break;
+            }
         }
     }
     
