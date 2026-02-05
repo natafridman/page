@@ -660,8 +660,8 @@ const PRODUCTS_TO_LOAD = [
                 const metadataText = await metadataResponse.text();
                 const metadata = parseMetadata(metadataText);
                 
-                // Detectar imágenes disponibles
-                const availableImages = await detectAvailableImages(productFolder);
+                // Usar imágenes declaradas en metadata (si existen)
+                const availableImages = Array.isArray(metadata.images) ? metadata.images : [];
                 
                 // Crear sección del producto
                 const productHTML = createProductSection(metadata, productFolder, i, availableImages);
@@ -686,43 +686,7 @@ const PRODUCTS_TO_LOAD = [
     }
 }
 
-// ===== DETECT AVAILABLE IMAGES BY SCANNING FOLDER =====
-async function detectAvailableImages(productFolder) {
-    const availableImages = [];
-    
-    try {
-        const response = await fetch(`${IMAGES_FOLDER}/${productFolder}/`, { method: 'HEAD' });
-        const html = await response.text();
-        
-        // Parse HTML to find image files
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const links = doc.querySelectorAll('a');
-        
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && /\.(jpg|jpeg|png|webp|gif)$/i.test(href) && href !== 'IMG_1576.jpeg') {
-                availableImages.push(href);
-            }
-        });
-    } catch (error) {
-        console.warn(`Could not scan folder ${productFolder}, using fallback method`);
-        
-        // Fallback: try common image names
-        for (let i = 1; i <= 6; i++) {
-            try {
-                const response = await fetch(`${IMAGES_FOLDER}/${productFolder}/img${i}.jpg`, { method: 'HEAD' });
-                if (response.ok) {
-                    availableImages.push(`img${i}.jpg`);
-                }
-            } catch (e) {
-                break;
-            }
-        }
-    }
-    
-    return availableImages;
-}
+// ===== IMAGES ARE PROVIDED BY METADATA =====
 
 // ===== PARSE METADATA FILE =====
 function parseMetadata(text) {
@@ -732,7 +696,17 @@ function parseMetadata(text) {
     lines.forEach(line => {
         const [key, ...valueParts] = line.split(':');
         if (key && valueParts.length) {
-            metadata[key.trim().toLowerCase()] = valueParts.join(':').trim();
+            const normalizedKey = key.trim().toLowerCase();
+            const rawValue = valueParts.join(':').trim();
+            
+            if (normalizedKey === 'images' || normalizedKey === 'videos') {
+                metadata[normalizedKey] = rawValue
+                    .split(',')
+                    .map(item => item.trim())
+                    .filter(Boolean);
+            } else {
+                metadata[normalizedKey] = rawValue;
+            }
         }
     });
     
@@ -741,18 +715,23 @@ function parseMetadata(text) {
 
 // ===== CREATE PRODUCT SECTION HTML =====
 function createProductSection(metadata, folder, index, availableImages) {
-    const hasVideo = metadata.video && metadata.video !== '';
+    const videoList = Array.isArray(metadata.videos) ? metadata.videos : (metadata.video ? [metadata.video] : []);
+    const imageList = Array.isArray(metadata.images) ? metadata.images : availableImages;
+    const hasVideo = videoList.length > 0;
+    const heroImage = imageList.length > 0 ? imageList[0] : 'hero.jpg';
+    
     const heroMedia = hasVideo 
         ? `<video class="hero-image" autoplay loop muted playsinline>
-             <source src="${IMAGES_FOLDER}/${folder}/${metadata.video}" type="video/mp4">
+             <source src="${IMAGES_FOLDER}/${folder}/${videoList[0]}" type="video/mp4">
            </video>`
-        : `<img src="${IMAGES_FOLDER}/${folder}/hero.jpg" alt="${metadata.title}" class="hero-image">`;
+        : `<img src="${IMAGES_FOLDER}/${folder}/${heroImage}" alt="${metadata.title}" class="hero-image">`;
     
-    // Generar solo las imágenes que existen (máximo 6)
-    const galleryImages = availableImages.map(i => `
+    // Usar todas las imágenes en metadata (si hay), o fallback detectado
+    const gallerySource = imageList.length > 1 ? imageList.slice(1) : imageList;
+    const galleryImages = gallerySource.map((filename, idx) => `
         <div class="gallery-item">
-            <img src="${IMAGES_FOLDER}/${folder}/img${i}.jpg" 
-                 alt="${metadata.title} - Imagen ${i}">
+            <img src="${IMAGES_FOLDER}/${folder}/${filename}" 
+                 alt="${metadata.title} - Imagen ${idx + 1}">
         </div>
     `).join('');
     
