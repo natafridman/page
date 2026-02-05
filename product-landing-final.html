@@ -34,6 +34,9 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
             scroll-snap-type: y mandatory;
         }
 
@@ -145,6 +148,7 @@
             position: absolute;
             bottom: 4%;
             right: -3%;
+            /*background: rgba(255, 255, 255, 0.85);*/
             padding: 2.5rem 3.5rem;
             backdrop-filter: blur(20px) saturate(180%);
             transform: translateX(50px);
@@ -213,264 +217,101 @@
             letter-spacing: -0.01em;
         }
 
-        .accent-number {
-            position: absolute;
-            top: 4rem;
-            right: 4rem;
-            font-size: clamp(10rem, 18vw, 15rem);
-            font-weight: 700;
-            color: rgba(0, 0, 0, 0.03);
-            line-height: 0.9;
-            pointer-events: none;
-            user-select: none;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: transform 0.7s ease, opacity 0.7s ease;
-        }
-
-        .accent-number.reveal-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .product-section:nth-child(even) .accent-number {
-            right: auto;
-            left: 4rem;
-        }
-
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
-            max-width: 600px;
+            max-width: 700px;
         }
 
         .gallery-item {
-            position: relative;
             aspect-ratio: 1;
-            border-radius: 12px;
             overflow: hidden;
-            cursor: pointer;
+            background: var(--surface-gray);
+            position: relative;
             opacity: 0;
-            transform: translateY(20px);
-            transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.3s ease;
+            transform: scale(0.9);
+            border-radius: 12px;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
         }
+
+        .gallery-item:nth-child(1) { transition-delay: 0.1s; }
+        .gallery-item:nth-child(2) { transition-delay: 0.2s; }
+        .gallery-item:nth-child(3) { transition-delay: 0.3s; }
+        .gallery-item:nth-child(4) { transition-delay: 0.4s; }
+        .gallery-item:nth-child(5) { transition-delay: 0.5s; }
+        .gallery-item:nth-child(6) { transition-delay: 0.6s; }
 
         .gallery-item.reveal-in {
             opacity: 1;
-            transform: translateY(0);
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: scale(1);
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .gallery-item:hover img {
             transform: scale(1.05);
         }
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.03);
             opacity: 0;
             transition: opacity 0.3s ease;
-            justify-content: center;
-            align-items: center;
         }
 
-        .modal.show {
-            display: flex;
+        .gallery-item:hover::after {
             opacity: 1;
         }
 
-        .modal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90vh;
-            animation: modalZoom 0.3s ease;
-        }
-
-        @keyframes modalZoom {
-            from {
-                transform: scale(0.7);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-content img {
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: 8px;
-            object-fit: contain;
-        }
-
-        .modal-close {
+        .accent-number {
             position: absolute;
-            top: 20px;
-            right: 40px;
-            color: white;
-            font-size: 48px;
-            font-weight: 300;
-            cursor: pointer;
-            z-index: 2001;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-close:hover {
-            opacity: 0.7;
-        }
-
-        /* Footer Styles */
-        .main-footer {
-            background: var(--primary-dark);
-            color: var(--primary-light);
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h4 {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            top: 2rem;
+            left: 2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(5rem, 10vw, 8rem);
             font-weight: 600;
+            color: var(--text-primary);
+            opacity: 0;
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: transform 0.7s ease, opacity 0.7s ease;
         }
 
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary-light);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-light);
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        .social-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-input,
-        .form-textarea {
-            padding: 0.75rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--primary-light);
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: border-color 0.3s ease, background 0.3s ease;
-        }
-
-        .form-input:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .form-button {
-            padding: 0.75rem 2rem;
-            background: var(--primary-light);
-            color: var(--primary-dark);
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .form-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
-        }
-
-        /* Loading State */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-size: 1.5rem;
-            color: var(--text-secondary);
+        .accent-number.reveal-in {
+            opacity: 0.13;
+            transform: translateY(0);
         }
 
         /* Responsive Design */
-        @media (max-width: 968px) {
-            .product-section {
-                flex-direction: column !important;
+        @media (max-width: 1024px) {
+            .main-header {
+                height: 60px;
             }
 
-            .product-section:nth-child(even) {
+            .header-container {
+                padding: 0 1.5rem;
+            }
+
+            .logo svg {
+                width: 28px;
+                height: 28px;
+            }
+
+            .logo-text {
+                font-size: 1rem;
+            }
+
+            .product-section {
                 flex-direction: column !important;
             }
 
@@ -480,37 +321,350 @@
             }
 
             .hero-side {
-                min-height: 60vh;
+                min-height: 50vh;
             }
 
             .gallery-side {
-                padding: 2rem;
-            }
-
-            .accent-number {
-                top: 2rem;
-                right: 2rem;
-                font-size: 8rem;
-            }
-
-            .product-section:nth-child(even) .accent-number {
-                left: 2rem;
+                padding: 3rem 2rem;
             }
 
             .product-title-overlay {
-                left: 50%;
-                right: auto;
-                transform: translateX(-50%) translateY(20px);
-                bottom: 2rem;
+                right: 5% !important;
+                left: auto !important;
+                bottom: 5%;
+                padding: 1.8rem 2.5rem;
+                border-radius: 12px;
             }
 
-            .product-section:nth-child(even) .product-title-overlay {
-                left: 50%;
-                transform: translateX(-50%) translateY(20px);
+            .gallery-grid {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .main-header {
+                height: 56px;
             }
 
-            .product-title-overlay.reveal-in {
-                transform: translateX(-50%) translateY(0);
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .logo svg {
+                width: 26px;
+                height: 26px;
+            }
+
+            .logo-text {
+                font-size: 0.95rem;
+            }
+
+            .gallery-side {
+                padding: 2rem 1.5rem;
+            }
+
+            .product-title-overlay {
+                padding: 1.2rem 1.8rem;
+                right: 2% !important;
+                border-radius: 10px;
+            }
+
+            .gallery-grid {
+                gap: 0.75rem;
+            }
+
+            .gallery-item {
+                border-radius: 10px;
+            }
+
+            .description-text {
+                margin-bottom: 2rem;
+            }
+
+            .accent-number {
+                font-size: 4rem;
+                top: 1rem;
+                left: 1rem;
+            }
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background: var(--text-primary);
+            color: var(--primary-light);
+            padding: 5rem 2rem 2rem;
+            margin-top: 0;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-subtitle {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 400px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-light);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-links li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-input,
+        .form-textarea {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.875rem 1.25rem;
+            color: var(--primary-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-button {
+            background: var(--primary-light);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            padding: 0.875rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-button:hover {
+            background: var(--surface-gray);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer Responsive */
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+
+            .footer-form-section {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .main-footer {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .footer-form-section {
+                grid-column: 1;
+            }
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0);
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            padding: 60px 20px 20px 20px;
+        }
+
+        .modal.show {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            width: auto;
+            height: auto;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: #ffffff;
+            font-size: 45px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 10001;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 640px) {
+            .modal {
+                padding: 70px 10px 10px 10px;
+            }
+            
+            .modal-content {
+                max-width: 95vw;
+                max-height: 80vh;
+            }
+            
+            .modal-content img {
+                max-width: 95vw;
+                max-height: 80vh;
+            }
+            
+            .modal-close {
+                top: 15px;
+                right: 15px;
+                font-size: 40px;
+                width: 45px;
+                height: 45px;
             }
         }
     </style>
@@ -521,15 +675,18 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="12" width="24" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M12 12V10C12 8.89543 12.8954 8 14 8H26C27.1046 8 28 8.89543 28 10V12" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="20" cy="20" r="2" fill="currentColor"/>
                 </svg>
-                <span class="logo-text">YAGO & NATA CO.</span>
+                <span class="logo-text">YAGO & NATA CO</span>
             </div>
         </div>
     </header>
+
+    </br>
+    </br>
 
     <!-- Products Container - Will be populated dynamically -->
     <main id="productsContainer">
@@ -539,21 +696,20 @@
     <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
-            <div class="footer-grid">
+            <div class="footer-content">
+                <!-- Información de la empresa -->
                 <div class="footer-section">
-                    <h4 class="footer-subtitle">Yago & Nata Co.</h4>
-                    <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6;">
-                        Marroquinería artesanal de alta calidad. Cada pieza está diseñada con atención al detalle y fabricada con los mejores materiales.
-                    </p>
-                    <div class="social-links" style="margin-top: 1.5rem;">
-                        <a href="https://instagram.com/yagoynataco" class="social-link" aria-label="Instagram" target="_blank">
+                    <h3 class="footer-title">YAGO & NATA CO</h3>
+                    <p class="footer-text">Artesanía excepcional en cuero premium. Cada pieza es diseñada y confeccionada con dedicación para acompañarte en tu día a día.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                             </svg>
                         </a>
-                        <a href="https://facebook.com/yagoynataco" class="social-link" aria-label="Facebook" target="_blank">
+                        <a href="#" class="social-link" aria-label="Facebook">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                             </svg>
@@ -566,15 +722,17 @@
                     </div>
                 </div>
 
+                <!-- Información de contacto -->
                 <div class="footer-section">
                     <h4 class="footer-subtitle">Contacto</h4>
                     <ul class="footer-links">
-                        <li><a href="mailto:yagoynataco@gmail.com">yagoynataco@gmail.com</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#0c6a7e6568616d62626d786d626569604c646378616d6560226f6361"><span class="__cf_email__" data-cfemail="aaccd8c3cec7cbc4c4cbdecbc4c3cfc6eac2c5dec7cbc3c684c9c5c7">[email&#160;protected]</span></a></li>
                         <li><a href="tel:+5491153445155">+54 9 11 5344-5155</a></li>
                         <li>Buenos Aires, Argentina</li>
                     </ul>
                 </div>
 
+                <!-- Formulario de contacto -->
                 <div class="footer-section footer-form-section">
                     <h4 class="footer-subtitle">Envianos un mensaje</h4>
                     <form class="contact-form" id="contactForm">
@@ -586,6 +744,7 @@
                 </div>
             </div>
 
+            <!-- Copyright -->
             <div class="footer-bottom">
                 <p>&copy; 2026 Yago & Nata Co. Todos los derechos reservados.</p>
             </div>
@@ -599,6 +758,8 @@
             <img id="modalImage" src="" alt="Imagen ampliada">
         </div>
     </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 
 <script>
 // ===== CONFIGURATION =====
@@ -726,8 +887,8 @@ function createProductSection(metadata, folder, index, availableImages) {
            </video>`
         : `<img src="${IMAGES_FOLDER}/${folder}/${heroImage}" alt="${metadata.title}" class="hero-image">`;
     
-    // Usar todas las imágenes en metadata (si hay), o fallback detectado
-    const gallerySource = imageList.length > 1 ? imageList.slice(1) : imageList;
+    // Usar todas las imágenes si hay video; si no, excluir la que se usa como hero
+    const gallerySource = hasVideo ? imageList : (imageList.length > 1 ? imageList.slice(1) : imageList);
     const galleryImages = gallerySource.map((filename, idx) => `
         <div class="gallery-item">
             <img src="${IMAGES_FOLDER}/${folder}/${filename}" 
@@ -741,12 +902,11 @@ function createProductSection(metadata, folder, index, availableImages) {
             <div class="hero-side">
                 <div class="hero-image-wrapper">
                     ${heroMedia}
-                </div>
-                
-                <!-- Título superpuesto -->
-                <div class="product-title-overlay">
-                    <p class="product-subtitle">${metadata.subtitle || 'COLECCIÓN'}</p>
-                    <h2>${metadata.title || 'Producto'}</h2>
+                    <!-- Título superpuesto -->
+                    <div class="product-title-overlay">
+                        <div class="product-subtitle">${metadata.subtitle || 'COLECCIÓN'}</div>
+                        <h2>${metadata.title || 'Producto'}</h2>
+                    </div>
                 </div>
             </div>
 
@@ -846,7 +1006,7 @@ function initializeApp() {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const modalClose = document.getElementById('modalClose');
-    const galleryItems = document.querySelectorAll('.gallery-item img');
+    const galleryItems = document.querySelectorAll('.gallery-item');
 
     function closeModal() {
         if (!modal) return;
@@ -866,10 +1026,13 @@ function initializeApp() {
         document.body.style.overflow = 'hidden';
     }
 
-    galleryItems.forEach(function(img) {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', function() {
-            openModal(this.src);
+    galleryItems.forEach(function(item) {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            if (img) {
+                openModal(img.src);
+            }
         });
     });
 
