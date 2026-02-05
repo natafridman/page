@@ -691,7 +691,7 @@ async function detectAvailableImages(productFolder) {
     const availableImages = [];
     
     try {
-        const response = await fetch(`${IMAGES_FOLDER}/${productFolder}/`);
+        const response = await fetch(`${IMAGES_FOLDER}/${productFolder}/`, { method: 'HEAD' });
         const html = await response.text();
         
         // Parse HTML to find image files
