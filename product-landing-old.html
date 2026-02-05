@@ -670,7 +670,25 @@
     </style>
 </head>
 <body>
-
+<script>
+// Definir función global INMEDIATAMENTE para que onClick funcione
+window.openImageModal = function(imageSrc) {
+    console.log('🟢 Abriendo modal con:', imageSrc);
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    if (modal && modalImg) {
+        modalImg.src = imageSrc;
+        modal.style.display = "flex";
+        setTimeout(function() { 
+            modal.classList.add("show"); 
+        }, 10);
+        document.body.style.overflow = "hidden";
+    } else {
+        console.error('❌ Modal elements not found');
+    }
+};
+console.log('✅ openImageModal definida');
+</script>
     <!-- Header -->
     <header class="main-header">
         <div class="header-container">
@@ -688,10 +706,251 @@
     </br>
     </br>
 
-    <!-- Products Container - Will be populated dynamically -->
-    <main id="productsContainer">
-        <div class="loading">Cargando productos...</div>
-    </main>
+    <!-- Producto 1 -->
+    <section class="product-section">
+        <div class="hero-side">
+            <div class="hero-image-wrapper">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="images/bolso/bolso.mp4" type="video/mp4">
+                </video>
+                <div class="product-title-overlay">
+                    <div class="product-subtitle">Cuero Para Viajar</div>
+                    <h2>Bolso Duffle</h2>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-side">
+            <div class="accent-number">01</div>
+            <div class="description-text">
+                <p>Artesanía excepcional en cada detalle. Cuero genuino de grano completo, costuras reforzadas a mano y herrajes de alta resistencia. Espacio generoso para escapadas y viajes largos.</p>
+            </div>
+             <div class="gallery-grid">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/bolso/G28A0280.jpeg" alt="Bolso duffle en exterior">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/bolso/IMG_1576.jpeg" alt="Bolso duffle vista frontal">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/bolso/IMG_1579.jpeg" alt="Bolso duffle vista lateral con correa">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/bolso/IMG_1581.jpeg" alt="Bolso duffle detalle de cierre y herrajes">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/bolso/IMG_1583.jpeg" alt="Bolso duffle detalle de costuras y asas">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/bolso/IMG_1585.jpeg" alt="Bolso duffle vista en perspectiva">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Producto 2 -->
+    <section class="product-section">
+        <div class="hero-side">
+            <div class="hero-image-wrapper">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="images/maletin/maletin.mp4" type="video/mp4">
+                </video>
+                <div class="product-title-overlay">
+                    <div class="product-subtitle">Organización Ejecutiva</div>
+                    <h2>Maletín Ejecutivo</h2>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-side">
+            <div class="accent-number">02</div>
+            <div class="description-text">
+                <p>Hecho para el ritmo profesional. Compartimentos inteligentes para notebook, documentos y accesorios, con cierre seguro y estructura firme. Cuero premium que gana carácter con el uso.</p>
+            </div>
+             <div class="gallery-grid">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/maletin/IMG_1571.jpeg" alt="Maletín ejecutivo vista general">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/maletin/IMG_1572.jpeg" alt="Maletín ejecutivo vista frontal">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/maletin/IMG_1574.jpeg" alt="Maletín ejecutivo vista lateral">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/maletin/IMG_1571.jpeg" alt="Maletín ejecutivo detalle de cierre">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/maletin/IMG_1572.jpeg" alt="Maletín ejecutivo detalle de costuras">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/maletin/IMG_1574.jpeg" alt="Maletín ejecutivo vista en perspectiva">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Producto 3 -->
+    <section class="product-section">
+        <div class="hero-side">
+            <div class="hero-image-wrapper">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="images/mochila/mochila.mp4" type="video/mp4">
+                </video>
+                <div class="product-title-overlay">
+                    <div class="product-subtitle">Movimiento Urbano</div>
+                    <h2>Mochila London</h2>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-side">
+            <div class="accent-number">03</div>
+            <div class="description-text">
+                <p>Diseñada para la ciudad. Compartimientos cómodos para el día a día, respaldo acolchado y líneas limpias que elevan cualquier look. Resistente y ligera para moverte sin límites.</p>
+            </div>
+             <div class="gallery-grid">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/mochila/LONDON.jpeg" alt="Mochila urbana vista general">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/mochila/LONDON(1).jpeg" alt="Mochila urbana vista frontal">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/mochila/LONDON(2).jpeg" alt="Mochila urbana vista lateral">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/mochila/LONDON´.jpeg" alt="Mochila urbana detalle de cierre">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/mochila/LONDON.jpeg" alt="Mochila urbana vista en perspectiva">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/mochila/MOCHILA LONDON.jpg" alt="Mochila urbana detalle de costuras">
+                </div> 
+            </div>
+        </div>
+    </section>
+
+    <!-- Producto 4 -->
+    <section class="product-section">
+        <div class="hero-side">
+            <div class="hero-image-wrapper">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="images/morral/morral.mp4" type="video/mp4">
+                </video>
+                <div class="product-title-overlay">
+                    <div class="product-subtitle">Estilo Diario</div>
+                    <h2>Morral Monaco</h2>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-side">
+            <div class="accent-number">04</div>
+            <div class="description-text">
+                <p>Compacto y sofisticado. Ideal para llevar lo esencial con comodidad, con cuero resistente y acabados impecables para un look urbano y elegante.</p>
+            </div>
+             <div class="gallery-grid">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/morral/MONACO.jpeg" alt="Morral Monaco vista general">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/morral/MONACO_vfirst.jpeg" alt="Morral Monaco vista frontal">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/morral/MONACO_vlast.jpeg" alt="Morral Monaco vista posterior">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/morral/MORRAL MONACO.png" alt="Morral Monaco detalle de diseño">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/morral/MONACO.jpeg" alt="Morral Monaco detalle de costuras">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/morral/MONACO_vfirst.jpeg" alt="Morral Monaco en uso">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Producto 5 -->
+    <section class="product-section">
+        <div class="hero-side">
+            <div class="hero-image-wrapper">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="images/necessaire/necessaire.mp4" type="video/mp4">
+                </video>
+                <div class="product-title-overlay">
+                    <div class="product-subtitle">Orden de Viaje</div>
+                    <h2>Neceser Lisboa</h2>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-side">
+            <div class="accent-number">05</div>
+            <div class="description-text">
+                <p>Organización impecable en formato compacto. Forro fácil de limpiar, cierre seguro y capacidad ideal para grooming y esenciales de viaje.</p>
+            </div>
+             <div class="gallery-grid">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/necessaire/LISBOA.jpeg" alt="Neceser Lisboa vista general">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/necessaire/LISBOA(1).jpeg" alt="Neceser Lisboa vista frontal">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/necessaire/LISBOA_vfirst.jpeg" alt="Neceser Lisboa vista superior">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/necessaire/LISBOA_vlast.jpeg" alt="Neceser Lisboa vista posterior">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/necessaire/LISBOA.jpeg" alt="Neceser Lisboa detalle de cuero">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/necessaire/NECCESER LISBOA.png" alt="Neceser Lisboa detalle de cierre">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Producto 6 -->
+    <section class="product-section">
+        <div class="hero-side">
+            <div class="hero-image-wrapper">
+                <video autoplay muted loop playsinline class="hero-image">
+                    <source src="images/portadocumentos/portadocumentos.mp4" type="video/mp4">
+                </video>
+                <div class="product-title-overlay">
+                    <div class="product-subtitle">Viaje Seguro</div>
+                    <h2>Portadocumentos Madrid</h2>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-side">
+            <div class="accent-number">06</div>
+            <div class="description-text">
+                <p>Todo a mano y en orden. Espacios para pasaporte, tarjetas y boarding pass con protección y un acabado sobrio que eleva cada trayecto.</p>
+            </div>
+             <div class="gallery-grid">
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/portadocumentos/portadocumento_vfirst.jpg" alt="Portadocumentos Madrid vista general">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/portadocumentos/portadocumento_vlast.jpg" alt="Portadocumentos Madrid vista posterior">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/portadocumentos/53177920-2491-4dde-83ce-0e6595e435a1 (1).jpg" alt="Portadocumentos Madrid detalle interior">
+                </div>
+                 <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/portadocumentos/PASAPORTE MADRID.png" alt="Portadocumentos Madrid detalle de pasaporte">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/portadocumentos/rac_0592-fed71bc31494c9ac2817136961102613-1024-1024.webp" alt="Portadocumentos Madrid detalle de cuero">
+                </div>
+                <div class="gallery-item" onclick="openImageModal(this.querySelector('img').src)">
+                    <img src="images/portadocumentos/portadocumento_vfirst.jpg" alt="Portadocumentos Madrid en uso">
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -759,332 +1018,169 @@
         </div>
     </div>
 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
 <script>
-
-// ===== CONFIGURATION =====
-const IMAGES_FOLDER = 'images';
-const PRODUCTS_TO_LOAD = [
-    'bolso',
-    'maletin',
-    'mochila',
-    'morral',
-    'necessaire',
-    'portadocumentos',
-];
-
-// ===== AUTO-DETECT PRODUCTS FROM FOLDER NAMES =====
-// Si preferis listar manualmente los productos, llena el array PRODUCTS_TO_LOAD arriba
-// Si querés cargar automáticamente, este script intentará detectarlos
-
-// ===== LOAD PRODUCTS DYNAMICALLY =====
-async function loadProducts() {
-    console.log('🔄 Iniciando carga de productos...');
-    
-    const container = document.getElementById('productsContainer');
-    
-    // Si no hay productos definidos manualmente, mostrar error
-    if (PRODUCTS_TO_LOAD.length === 0) {
-        container.innerHTML = `
-            <div class="loading" style="flex-direction: column; gap: 2rem; text-align: center; padding: 2rem;">
-                <p style="font-size: 1.5rem;">⚠️ No hay productos configurados</p>
-                <div style="max-width: 600px; text-align: left; font-size: 1rem; color: #666;">
-                    <p style="margin-bottom: 1rem;">Para cargar productos, edita el archivo HTML y agrega los nombres de las carpetas en el array <code>PRODUCTS_TO_LOAD</code>:</p>
-                    <pre style="background: #f5f5f7; padding: 1rem; border-radius: 8px; overflow-x: auto;">
-const PRODUCTS_TO_LOAD = [
-    'producto1',
-    'producto2',
-    'producto3',
-];</pre>
-                    <p style="margin-top: 1rem;">Los nombres deben coincidir exactamente con las carpetas en <code>images/</code></p>
-                </div>
-            </div>
-        `;
-        return;
-    }
-    
-    try {
-        container.innerHTML = ''; // Limpiar loading
-        
-        // Cargar cada producto
-        for (let i = 0; i < PRODUCTS_TO_LOAD.length; i++) {
-            const productFolder = PRODUCTS_TO_LOAD[i];
-            console.log(`📦 Cargando producto: ${productFolder}`);
-            
-            try {
-                // Cargar metadata
-                const metadataResponse = await fetch(`${IMAGES_FOLDER}/${productFolder}/metadata.txt`);
-                if (!metadataResponse.ok) {
-                    throw new Error(`No se encontró metadata.txt en ${productFolder}`);
-                }
-                
-                const metadataText = await metadataResponse.text();
-                const metadata = parseMetadata(metadataText);
-                
-                // Usar imágenes declaradas en metadata (si existen)
-                const availableImages = Array.isArray(metadata.images) ? metadata.images : [];
-                
-                // Crear sección del producto
-                const productHTML = createProductSection(metadata, productFolder, i, availableImages);
-                container.innerHTML += productHTML;
-                
-                console.log(`✅ Producto cargado: ${metadata.title} (${availableImages.length} imágenes)`);
-            } catch (error) {
-                console.error(`❌ Error cargando producto ${productFolder}:`, error);
-            }
-        }
-        
-        // Inicializar funcionalidades después de cargar productos
-        initializeApp();
-        
-    } catch (error) {
-        console.error('❌ Error fatal cargando productos:', error);
-        container.innerHTML = `
-            <div class="loading">
-                <p>Error al cargar productos. Verifica la consola para más detalles.</p>
-            </div>
-        `;
-    }
-}
-
-// ===== IMAGES ARE PROVIDED BY METADATA =====
-
-// ===== PARSE METADATA FILE =====
-function parseMetadata(text) {
-    const metadata = {};
-    const lines = text.trim().split('\n');
-    
-    lines.forEach(line => {
-        const [key, ...valueParts] = line.split(':');
-        if (key && valueParts.length) {
-            const normalizedKey = key.trim().toLowerCase();
-            const rawValue = valueParts.join(':').trim();
-            
-            if (normalizedKey === 'images' || normalizedKey === 'videos') {
-                metadata[normalizedKey] = rawValue
-                    .split(',')
-                    .map(item => item.trim())
-                    .filter(Boolean);
-            } else {
-                metadata[normalizedKey] = rawValue;
-            }
-        }
-    });
-    
-    return metadata;
-}
-
-// ===== CREATE PRODUCT SECTION HTML =====
-function createProductSection(metadata, folder, index, availableImages) {
-    const videoList = Array.isArray(metadata.videos) ? metadata.videos : (metadata.video ? [metadata.video] : []);
-    const imageList = Array.isArray(metadata.images) ? metadata.images : availableImages;
-    const hasVideo = videoList.length > 0;
-    const heroImage = imageList.length > 0 ? imageList[0] : 'hero.jpg';
-    
-    const heroMedia = hasVideo 
-        ? `<video class="hero-image" autoplay loop muted playsinline>
-             <source src="${IMAGES_FOLDER}/${folder}/${videoList[0]}" type="video/mp4">
-           </video>`
-        : `<img src="${IMAGES_FOLDER}/${folder}/${heroImage}" alt="${metadata.title}" class="hero-image">`;
-    
-    // Usar todas las imágenes si hay video; si no, excluir la que se usa como hero
-    const gallerySource = hasVideo ? imageList : (imageList.length > 1 ? imageList.slice(1) : imageList);
-    const galleryImages = gallerySource.map((filename, idx) => `
-        <div class="gallery-item">
-            <img src="${IMAGES_FOLDER}/${folder}/${filename}" 
-                 alt="${metadata.title} - Imagen ${idx + 1}">
-        </div>
-    `).join('');
-    
-    return `
-        <section class="product-section" data-product="${folder}">
-            <!-- Hero Side con Imagen/Video -->
-            <div class="hero-side">
-                <div class="hero-image-wrapper">
-                    ${heroMedia}
-                    <!-- Título superpuesto -->
-                    <div class="product-title-overlay">
-                        <div class="product-subtitle">${metadata.subtitle || 'COLECCIÓN'}</div>
-                        <h2>${metadata.title || 'Producto'}</h2>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gallery Side con Descripción y Galería -->
-            <div class="gallery-side">
-                <!-- Número de código grande -->
-                <div class="accent-number">${metadata.code || String(index + 1).padStart(2, '0')}</div>
-
-                <!-- Texto descriptivo -->
-                <div class="description-text">
-                    <p>${metadata.description || 'Descripción del producto.'}</p>
-                </div>
-
-                <!-- Grid de galería -->
-                <div class="gallery-grid">
-                    ${galleryImages}
-                </div>
-            </div>
-        </section>
-    `;
-}
-
-// ===== INITIALIZE APP AFTER PRODUCTS LOADED =====
-function initializeApp() {
-    console.log('🎬 Inicializando aplicación...');
-    
-    // ===== SCROLL REVEAL ANIMATIONS =====
-    const revealTargets = document.querySelectorAll(
-        '.product-section, .hero-image, .product-title-overlay, .description-text, .accent-number, .gallery-item'
-    );
-
-    const revealObserver = new IntersectionObserver(
-        function(entries, observer) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        },
-        {
-            root: null,
-            rootMargin: '0px 0px -10% 0px',
-            threshold: 0.2
-        }
-    );
-
-    revealTargets.forEach(function(el) {
-        revealObserver.observe(el);
-    });
-    
     // ===== HEADER SCROLL FUNCTIONALITY =====
-    let lastScrollY = window.scrollY;
-    let scrollTimer = null;
-    const header = document.querySelector('.main-header');
-    const scrollThreshold = 100;
-    
-    function handleScroll() {
-        const currentScrollY = window.scrollY;
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('📄 DOM Cargado - Inicializando...');
+
+        // ===== SCROLL REVEAL ANIMATIONS =====
+        const revealTargets = document.querySelectorAll(
+            '.product-section, .hero-image, .product-title-overlay, .description-text, .accent-number, .gallery-item'
+        );
+
+        const revealObserver = new IntersectionObserver(
+            function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                rootMargin: '0px 0px -10% 0px',
+                threshold: 0.2
+            }
+        );
+
+        revealTargets.forEach(function(el) {
+            revealObserver.observe(el);
+        });
         
-        if (currentScrollY < 10) {
-            header.classList.remove('header-hidden');
+        let lastScrollY = window.scrollY;
+        let scrollTimer = null;
+        const header = document.querySelector('.main-header');
+        const scrollThreshold = 100; // Píxeles antes de que el header reaccione
+        
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
+            
+            // Si estamos en el top, siempre mostrar el header
+            if (currentScrollY < 10) {
+                header.classList.remove('header-hidden');
+                lastScrollY = currentScrollY;
+                return;
+            }
+            
+            // Solo reaccionar después de cierto umbral
+            if (Math.abs(currentScrollY - lastScrollY) < 5) {
+                return;
+            }
+            
+            // Scroll hacia abajo - ocultar con delay
+            if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+                if (scrollTimer) clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => {
+                    header.classList.add('header-hidden');
+                }, 150); // Delay de 150ms antes de ocultar
+            } 
+            // Scroll hacia arriba - mostrar inmediatamente
+            else if (currentScrollY < lastScrollY) {
+                if (scrollTimer) clearTimeout(scrollTimer);
+                header.classList.remove('header-hidden');
+            }
+            
             lastScrollY = currentScrollY;
-            return;
         }
         
-        if (Math.abs(currentScrollY - lastScrollY) < 5) {
-            return;
-        }
-        
-        if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
-            if (scrollTimer) clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(() => {
-                header.classList.add('header-hidden');
-            }, 150);
-        } 
-        else if (currentScrollY < lastScrollY) {
-            if (scrollTimer) clearTimeout(scrollTimer);
-            header.classList.remove('header-hidden');
-        }
-        
-        lastScrollY = currentScrollY;
-    }
-    
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-
-    // ===== MODAL FUNCTIONALITY =====
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    const modalClose = document.getElementById('modalClose');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-
-    function closeModal() {
-        if (!modal) return;
-        modal.classList.remove('show');
-        setTimeout(function() {
-            modal.style.display = 'none';
-            if (modalImg) modalImg.src = '';
-        }, 300);
-        document.body.style.overflow = '';
-    }
-
-    function openModal(imgSrc) {
-        if (!modal || !modalImg) return;
-        modal.style.display = 'flex';
-        setTimeout(() => modal.classList.add('show'), 10);
-        modalImg.src = imgSrc;
-        document.body.style.overflow = 'hidden';
-    }
-
-    galleryItems.forEach(function(item) {
-        item.style.cursor = 'pointer';
-        item.addEventListener('click', function() {
-            const img = this.querySelector('img');
-            if (img) {
-                openModal(img.src);
+        // Usar requestAnimationFrame para mejor performance
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
-    });
 
-    if (modalClose) {
-        modalClose.addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeModal();
+        // ===== MODAL FUNCTIONALITY =====
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+
+        // Función para cerrar el modal
+        function closeModal() {
+            console.log('🔴 Cerrando modal');
+            if (!modal) return;
+            modal.classList.remove('show');
+            setTimeout(function() {
+                modal.style.display = 'none';
+                if (modalImg) modalImg.src = '';
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        // Abrir modal al hacer click en imagen (backup del onClick)
+        galleryItems.forEach(function(img) {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function() {
+                console.log('🖱️ Click en imagen detectado');
+                openImageModal(this.src);
+            });
         });
-    }
 
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
+        // Cerrar modal con X
+        if (modalClose) {
+            modalClose.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('❌ Click en X');
+                closeModal();
+            });
+        }
+
+        // Cerrar modal al hacer click fuera de la imagen
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    console.log('🖱️ Click fuera del modal');
+                    closeModal();
+                }
+            });
+        }
+
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
+                console.log('⌨️ ESC presionado');
                 closeModal();
             }
         });
-    }
 
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
-            closeModal();
+        console.log('✅ Modal completamente inicializado');
+
+        // ===== CONTACT FORM FUNCTIONALITY =====
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const message = document.getElementById('contactMessage').value;
+                
+                const subject = encodeURIComponent(`Mensaje de ${name}`);
+                const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`);
+                
+                const whatsappNumber = '5491153445155';
+                const whatsappURL = `https://wa.me/${whatsappNumber}?text=${subject}%0A%0A${body}`;
+                
+                window.open(whatsappURL, '_blank');
+                
+                contactForm.reset();
+            });
+            console.log('✅ Formulario de contacto inicializado');
+        } else {
+            console.error('❌ Formulario de contacto no encontrado');
         }
+        
+        console.log('🎉 Todos los sistemas inicializados');
     });
-
-    // ===== CONTACT FORM FUNCTIONALITY =====
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const message = document.getElementById('contactMessage').value;
-            
-            const subject = encodeURIComponent(`Mensaje de ${name}`);
-            const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`);
-            
-            const whatsappNumber = '5491153445155';
-            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${subject}%0A%0A${body}`;
-            
-            window.open(whatsappURL, '_blank');
-            
-            contactForm.reset();
-        });
-    }
-    
-    console.log('✅ Aplicación inicializada correctamente');
-}
-
-// ===== START APP =====
-document.addEventListener('DOMContentLoaded', function() {
-    loadProducts();
-});
 </script>
 
 </body>
