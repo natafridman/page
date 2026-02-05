@@ -1,0 +1,4 @@
+title: Bolso Duffle
+subtitle: Cuero Para Viajar
+description: Artesanía excepcional en cada detalle. Cuero genuino de grano completo, costuras reforzadas a mano y herrajes de alta resistencia. Espacio generoso para escapadas y viajes largos.
+code: 01
