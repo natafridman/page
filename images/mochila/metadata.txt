@@ -1,6 +1,6 @@
 title: Mochila London
 subtitle: Movimiento Urbano
-description: Diseñada para la ciudad. Compartimientos cómodos para el día a día, respaldo acolchado y líneas limpias que elevan cualquier look. Resistente y ligera para moverte sin límites.
+description: DiseÃ±ada para la ciudad. Compartimientos cÃ³modos para el dÃ­a a dÃ­a, respaldo acolchado y lÃ­neas limpias que elevan cualquier look. Resistente y ligera para moverte sin lÃ­mites.
 code: 03
-images: MOCHILA LONDON.jpg, LONDON(1).jpeg, LONDON(2).jpeg, LONDON.jpeg, LONDONï.jpeg
+images: MOCHILA LONDON.jpg, LONDON(1).jpeg, LONDON(2).jpeg, LONDON.jpeg, LONDON2.jpeg
 videos: mochila.mp4
