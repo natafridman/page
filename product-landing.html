@@ -762,77 +762,90 @@
 <script>
 
 // ===== CONFIGURATION =====
-const IMAGES_FOLDER = 'images';
+const IMAGES_BASE_FOLDER = 'images/Categorias';
 
-// ===== AUTO-DETECT PRODUCTS FROM FOLDER NAMES =====
-// Si preferis listar manualmente los productos, llena el array PRODUCTS_TO_LOAD arriba
-// Si querés cargar automáticamente, este script intentará detectarlos
-
-// ===== LOAD PRODUCTS DYNAMICALLY =====
+// ===== LOAD ALL PRODUCTS FROM ALL CATEGORIES =====
 async function loadProducts() {
-    console.log('🔄 Iniciando carga de productos...');
-    
     const container = document.getElementById('productsContainer');
     
-    const PRODUCTS_TO_LOAD = await fetch('products.txt')
-        .then(response => response.text())
-        .then(text => text.split('\n')
-            .map(line => line.trim())
-            .filter(line => line.length > 0))
-        .catch(error => {
-            console.error('Error loading products:', error);
-            return [];
-        });
-
-    // Si no hay productos definidos manualmente, mostrar error
-    if (PRODUCTS_TO_LOAD.length === 0) {
-        container.innerHTML = `
-            <div class="loading" style="flex-direction: column; gap: 2rem; text-align: center; padding: 2rem;">
-                <p style="font-size: 1.5rem;">⚠️ No hay productos configurados</p>
-                <div style="max-width: 600px; text-align: left; font-size: 1rem; color: #666;">
-                    <p style="margin-bottom: 1rem;">Para cargar productos, edita el archivo HTML y agrega los nombres de las carpetas en el array <code>PRODUCTS_TO_LOAD</code>:</p>
-                    <pre style="background: #f5f5f7; padding: 1rem; border-radius: 8px; overflow-x: auto;">
-const PRODUCTS_TO_LOAD = [
-    'producto1',
-    'producto2',
-    'producto3',
-];</pre>
-                    <p style="margin-top: 1rem;">Los nombres deben coincidir exactamente con las carpetas en <code>images/</code></p>
-                </div>
-            </div>
-        `;
-        return;
-    }
-    
     try {
-        container.innerHTML = ''; // Limpiar loading
+        console.log('🔍 Buscando categorías...');
         
-        // Cargar cada producto
-        for (let i = 0; i < PRODUCTS_TO_LOAD.length; i++) {
-            const productFolder = PRODUCTS_TO_LOAD[i];
-            console.log(`📦 Cargando producto: ${productFolder}`);
+        // Obtener lista de categorías
+        const categories = await discoverCategories();
+        console.log(`📁 Categorías encontradas: ${categories.length}`, categories);
+        
+        if (categories.length === 0) {
+            container.innerHTML = `
+                <div class="loading">
+                    <p>No se encontraron categorías en ${IMAGES_BASE_FOLDER}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let allProductsHTML = '';
+        let productIndex = 0;
+        
+        // Iterar por cada categoría
+        for (const category of categories) {
+            console.log(`📂 Procesando categoría: ${category}`);
             
-            try {
-                // Cargar metadata
-                const metadataResponse = await fetch(`${IMAGES_FOLDER}/${productFolder}/metadata.txt`);
-                if (!metadataResponse.ok) {
-                    throw new Error(`No se encontró metadata.txt en ${productFolder}`);
+            const categoryPath = `${IMAGES_BASE_FOLDER}/${category}`;
+            const products = await discoverFolders(categoryPath);
+            
+            console.log(`  └─ Productos encontrados: ${products.length}`, products);
+            
+            // Procesar cada producto en la categoría
+            for (const productFolder of products) {
+                try {
+                    const productPath = `${categoryPath}/${productFolder}`;
+                    const metadataPath = `${productPath}/metadata.txt`;
+                    
+                    // console.log(`    └─ Cargando: ${productPath}`);
+                    
+                    // Cargar metadata
+                    const metadataResponse = await fetch(metadataPath);
+                    if (!metadataResponse.ok) {
+                        console.warn(`⚠️ No se encontró metadata.txt en ${productPath}`);
+                        continue;
+                    }
+                    
+                    const metadataText = await metadataResponse.text();
+                    const metadata = parseMetadata(metadataText);
+                    
+                    // Obtener lista de imágenes disponibles
+                    const availableImages = await getAvailableImages(productPath);
+                    
+                    // Crear sección HTML del producto
+                    const productHTML = createProductSection(
+                        metadata, 
+                        category,
+                        productFolder, 
+                        productIndex, 
+                        availableImages
+                    );
+                    
+                    allProductsHTML += productHTML;
+                    productIndex++;
+                    
+                    // console.log(`    ✅ Producto cargado: ${metadata.title || productFolder}`);
+                    
+                } catch (error) {
+                    console.error(`    ❌ Error cargando producto ${productFolder}:`, error);
                 }
-                
-                const metadataText = await metadataResponse.text();
-                const metadata = parseMetadata(metadataText);
-                
-                // Usar imágenes declaradas en metadata (si existen)
-                const availableImages = Array.isArray(metadata.images) ? metadata.images : [];
-                
-                // Crear sección del producto
-                const productHTML = createProductSection(metadata, productFolder, i, availableImages);
-                container.innerHTML += productHTML;
-                
-                console.log(`✅ Producto cargado: ${metadata.title} (${availableImages.length} imágenes)`);
-            } catch (error) {
-                console.error(`❌ Error cargando producto ${productFolder}:`, error);
             }
+        }
+        
+        if (allProductsHTML) {
+            container.innerHTML = allProductsHTML;
+            console.log(`✅ Total de productos cargados: ${productIndex}`);
+        } else {
+            container.innerHTML = `
+                <div class="loading">
+                    <p>No se encontraron productos con metadata.txt</p>
+                </div>
+            `;
         }
         
         // Inicializar funcionalidades después de cargar productos
@@ -845,6 +858,116 @@ const PRODUCTS_TO_LOAD = [
                 <p>Error al cargar productos. Verifica la consola para más detalles.</p>
             </div>
         `;
+    }
+}
+
+// ===== DISCOVER CATEGORIES FROM categorias.txt =====
+async function discoverCategories() {
+    try {
+        // Leer el archivo categorias.txt
+        const categoriasPath = `images/categorias.txt`;
+        const response = await fetch(categoriasPath);
+        
+        if (!response.ok) {
+            console.error(`No se encontró ${categoriasPath}`);
+            return [];
+        }
+        
+        const text = await response.text();
+        
+        // Parsear el archivo: cada línea es una categoría
+        const categories = text
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0 && !line.startsWith('#')); // Ignorar líneas vacías y comentarios
+        
+        return categories;
+        
+    } catch (error) {
+        console.error(`Error leyendo categorias.txt:`, error);
+        return [];
+    }
+}
+
+// ===== DISCOVER FOLDERS IN A DIRECTORY =====
+async function discoverFolders(basePath) {
+    try {
+        const response = await fetch(basePath);
+        if (!response.ok) return [];
+        
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const links = doc.querySelectorAll('a');
+        
+        const folders = new Set();
+        
+        // Normalizar basePath decodificando cualquier encoding de URL
+        const normalizedBasePath = decodeURIComponent(basePath);
+        const baseSegments = normalizedBasePath.split('/').filter(s => s.length > 0);
+        
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            
+            if (href && href !== '../') {
+                // Decodificar el href también
+                const decodedHref = decodeURIComponent(href);
+                
+                // Verificar si contiene el basePath
+                if (decodedHref.includes(normalizedBasePath + '/') || 
+                    decodedHref.includes('/' + normalizedBasePath + '/')) {
+                    
+                    const segments = decodedHref.split('/').filter(s => s.length > 0);
+                    
+                    // Solo agregar si tiene MÁS segmentos que el basePath
+                    if (segments.length > baseSegments.length) {
+                        const folderName = segments[segments.length - 1];
+                        
+                        if (folderName.trim().length > 0) {
+                            folders.add(folderName);
+                        }
+                    }
+                }
+            }
+        });
+        
+        return Array.from(folders);
+        
+    } catch (error) {
+        console.error(`Error descubriendo carpetas en ${basePath}:`, error);
+        return [];
+    }
+}
+
+// ===== GET AVAILABLE IMAGES IN A PRODUCT FOLDER =====
+async function getAvailableImages(productPath) {
+    try {
+        const response = await fetch(productPath);
+        if (!response.ok) return [];
+        
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const links = doc.querySelectorAll('a');
+        
+        const images = [];
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+        
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && !href.startsWith('/') && href !== '../') {
+                const lower = href.toLowerCase();
+                if (imageExtensions.some(ext => lower.endsWith(ext))) {
+                    images.push(href);
+                }
+            }
+        });
+        
+        return images;
+        
+    } catch (error) {
+        console.error(`Error obteniendo imágenes de ${productPath}:`, error);
+        return [];
     }
 }
 
@@ -876,52 +999,47 @@ function parseMetadata(text) {
 }
 
 // ===== CREATE PRODUCT SECTION HTML =====
-function createProductSection(metadata, folder, index, availableImages) {
+function createProductSection(metadata, category, productFolder, index, availableImages) {
     const videoList = Array.isArray(metadata.videos) ? metadata.videos : (metadata.video ? [metadata.video] : []);
     const imageList = Array.isArray(metadata.images) ? metadata.images : availableImages;
     const hasVideo = videoList.length > 0;
     const heroImage = imageList.length > 0 ? imageList[0] : 'hero.jpg';
     
+    const productPath = `${IMAGES_BASE_FOLDER}/${category}/${productFolder}`;
+    
     const heroMedia = hasVideo 
         ? `<video class="hero-image" autoplay loop muted playsinline>
-             <source src="${IMAGES_FOLDER}/${folder}/${videoList[0]}" type="video/mp4">
+             <source src="${productPath}/${videoList[0]}" type="video/mp4">
            </video>`
-        : `<img src="${IMAGES_FOLDER}/${folder}/${heroImage}" alt="${metadata.title}" class="hero-image">`;
+        : `<img src="${productPath}/${heroImage}" alt="${metadata.title}" class="hero-image">`;
     
-    // Usar todas las imágenes si hay video; si no, excluir la que se usa como hero
     const gallerySource = hasVideo ? imageList : (imageList.length > 1 ? imageList.slice(1) : imageList);
     const galleryImages = gallerySource.map((filename, idx) => `
         <div class="gallery-item">
-            <img src="${IMAGES_FOLDER}/${folder}/${filename}" 
+            <img src="${productPath}/${filename}" 
                  alt="${metadata.title} - Imagen ${idx + 1}">
         </div>
     `).join('');
     
     return `
-        <section class="product-section" data-product="${folder}">
-            <!-- Hero Side con Imagen/Video -->
+        <section class="product-section" data-product="${productFolder}">
             <div class="hero-side">
                 <div class="hero-image-wrapper">
                     ${heroMedia}
-                    <!-- Título superpuesto -->
                     <div class="product-title-overlay">
-                        <div class="product-subtitle">${metadata.subtitle || 'COLECCIÓN'}</div>
+                        <div class="product-subtitle">${metadata.subtitle || category.toUpperCase()}</div>
                         <h2>${metadata.title || 'Producto'}</h2>
                     </div>
                 </div>
             </div>
 
-            <!-- Gallery Side con Descripción y Galería -->
             <div class="gallery-side">
-                <!-- Número de código grande -->
                 <div class="accent-number">${metadata.code || String(index + 1).padStart(2, '0')}</div>
 
-                <!-- Texto descriptivo -->
                 <div class="description-text">
                     <p>${metadata.description || 'Descripción del producto.'}</p>
                 </div>
 
-                <!-- Grid de galería -->
                 <div class="gallery-grid">
                     ${galleryImages}
                 </div>
