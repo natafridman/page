@@ -763,7 +763,6 @@
 
 // ===== CONFIGURATION =====
 const IMAGES_FOLDER = 'images';
-const PRODUCTS_TO_LOAD = [];
 
 // ===== AUTO-DETECT PRODUCTS FROM FOLDER NAMES =====
 // Si preferis listar manualmente los productos, llena el array PRODUCTS_TO_LOAD arriba
@@ -775,7 +774,7 @@ async function loadProducts() {
     
     const container = document.getElementById('productsContainer');
     
-    PRODUCTS_TO_LOAD = await fetch('products.txt')
+    const PRODUCTS_TO_LOAD = await fetch('products.txt')
         .then(response => response.text())
         .then(text => text.split('\n').map(line => line.trim()).filter(Boolean))
         .catch(error => {
