@@ -763,15 +763,13 @@
 
 // ===== CONFIGURATION =====
 const IMAGES_FOLDER = 'images';
-const PRODUCTS_TO_LOAD = [
-    'bolso',
-    'maletin',
-    'mochila',
-    'morral',
-    'necessaire',
-    'portadocumentos',
-    'rinionera'
-];
+const PRODUCTS_TO_LOAD = await fetch('products.txt')
+    .then(response => response.text())
+    .then(text => text.split('\n').map(line => line.trim()).filter(Boolean))
+    .catch(error => {
+        console.error('Error loading products:', error);
+        return [];
+    });
 
 // ===== AUTO-DETECT PRODUCTS FROM FOLDER NAMES =====
 // Si preferis listar manualmente los productos, llena el array PRODUCTS_TO_LOAD arriba

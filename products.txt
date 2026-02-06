@@ -1,0 +1,7 @@
+bolso,
+maletin,
+mochila,
+morral,
+necessaire,
+portadocumentos,
+rinionera
