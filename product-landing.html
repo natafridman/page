@@ -764,79 +764,71 @@
 // ===== CONFIGURATION =====
 const IMAGES_BASE_FOLDER = 'images/Categorias';
 
-// ===== LOAD ALL PRODUCTS FROM ALL CATEGORIES =====
+// ===== LOAD ALL PRODUCTS FROM ALL CATEGORIES (USING MANIFEST) =====
 async function loadProducts() {
     const container = document.getElementById('productsContainer');
-    
+
     try {
-        console.log('🔍 Buscando categorías...');
-        
-        // Obtener lista de categorías
-        const categories = await discoverCategories();
+        console.log('🔍 Cargando manifest.json...');
+
+        const manifest = await loadManifest();
+        const categories = Object.keys(manifest);
+
         console.log(`📁 Categorías encontradas: ${categories.length}`, categories);
-        
+
         if (categories.length === 0) {
             container.innerHTML = `
                 <div class="loading">
-                    <p>No se encontraron categorías en ${IMAGES_BASE_FOLDER}</p>
+                    <p>No se encontraron categorías en el manifest</p>
                 </div>
             `;
             return;
         }
-        
+
         let allProductsHTML = '';
         let productIndex = 0;
-        
-        // Iterar por cada categoría
+
+        // Iterar categorías
         for (const category of categories) {
             console.log(`📂 Procesando categoría: ${category}`);
-            
-            const categoryPath = `${IMAGES_BASE_FOLDER}/${category}`;
-            const products = await discoverFolders(categoryPath);
-            
+
+            const products = manifest[category] || [];
             console.log(`  └─ Productos encontrados: ${products.length}`, products);
-            
-            // Procesar cada producto en la categoría
+
+            // Iterar productos
             for (const productFolder of products) {
                 try {
-                    const productPath = `${categoryPath}/${productFolder}`;
+                    const productPath = `${IMAGES_BASE_FOLDER}/${category}/${productFolder}`;
                     const metadataPath = `${productPath}/metadata.txt`;
-                    
-                    // console.log(`    └─ Cargando: ${productPath}`);
-                    
-                    // Cargar metadata
+
                     const metadataResponse = await fetch(metadataPath);
                     if (!metadataResponse.ok) {
                         console.warn(`⚠️ No se encontró metadata.txt en ${productPath}`);
                         continue;
                     }
-                    
+
                     const metadataText = await metadataResponse.text();
                     const metadata = parseMetadata(metadataText);
-                    
-                    // Obtener lista de imágenes disponibles
+
                     const availableImages = await getAvailableImages(productPath);
-                    
-                    // Crear sección HTML del producto
+
                     const productHTML = createProductSection(
-                        metadata, 
+                        metadata,
                         category,
-                        productFolder, 
-                        productIndex, 
+                        productFolder,
+                        productIndex,
                         availableImages
                     );
-                    
+
                     allProductsHTML += productHTML;
                     productIndex++;
-                    
-                    // console.log(`    ✅ Producto cargado: ${metadata.title || productFolder}`);
-                    
+
                 } catch (error) {
                     console.error(`    ❌ Error cargando producto ${productFolder}:`, error);
                 }
             }
         }
-        
+
         if (allProductsHTML) {
             container.innerHTML = allProductsHTML;
             console.log(`✅ Total de productos cargados: ${productIndex}`);
@@ -847,10 +839,9 @@ async function loadProducts() {
                 </div>
             `;
         }
-        
-        // Inicializar funcionalidades después de cargar productos
+
         initializeApp();
-        
+
     } catch (error) {
         console.error('❌ Error fatal cargando productos:', error);
         container.innerHTML = `
@@ -858,84 +849,6 @@ async function loadProducts() {
                 <p>Error al cargar productos. Verifica la consola para más detalles.</p>
             </div>
         `;
-    }
-}
-
-// ===== DISCOVER CATEGORIES FROM categorias.txt =====
-async function discoverCategories() {
-    try {
-        // Leer el archivo categorias.txt
-        const categoriasPath = `images/categorias.txt`;
-        const response = await fetch(categoriasPath);
-        
-        if (!response.ok) {
-            console.error(`No se encontró ${categoriasPath}`);
-            return [];
-        }
-        
-        const text = await response.text();
-        
-        // Parsear el archivo: cada línea es una categoría
-        const categories = text
-            .split('\n')
-            .map(line => line.trim())
-            .filter(line => line.length > 0 && !line.startsWith('#')); // Ignorar líneas vacías y comentarios
-        
-        return categories;
-        
-    } catch (error) {
-        console.error(`Error leyendo categorias.txt:`, error);
-        return [];
-    }
-}
-
-// ===== DISCOVER FOLDERS IN A DIRECTORY =====
-async function discoverFolders(basePath) {
-    try {
-        const response = await fetch(basePath);
-        if (!response.ok) return [];
-        
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const links = doc.querySelectorAll('a');
-        
-        const folders = new Set();
-        
-        // Normalizar basePath decodificando cualquier encoding de URL
-        const normalizedBasePath = decodeURIComponent(basePath);
-        const baseSegments = normalizedBasePath.split('/').filter(s => s.length > 0);
-        
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            
-            if (href && href !== '../') {
-                // Decodificar el href también
-                const decodedHref = decodeURIComponent(href);
-                
-                // Verificar si contiene el basePath
-                if (decodedHref.includes(normalizedBasePath + '/') || 
-                    decodedHref.includes('/' + normalizedBasePath + '/')) {
-                    
-                    const segments = decodedHref.split('/').filter(s => s.length > 0);
-                    
-                    // Solo agregar si tiene MÁS segmentos que el basePath
-                    if (segments.length > baseSegments.length) {
-                        const folderName = segments[segments.length - 1];
-                        
-                        if (folderName.trim().length > 0) {
-                            folders.add(folderName);
-                        }
-                    }
-                }
-            }
-        });
-        
-        return Array.from(folders);
-        
-    } catch (error) {
-        console.error(`Error descubriendo carpetas en ${basePath}:`, error);
-        return [];
     }
 }
 
@@ -969,6 +882,16 @@ async function getAvailableImages(productPath) {
         console.error(`Error obteniendo imágenes de ${productPath}:`, error);
         return [];
     }
+}
+
+let manifestCache = null;
+
+async function loadManifest() {
+    if (manifestCache) return manifestCache;
+
+    const response = await fetch('/manifest.json');
+    manifestCache = await response.json();
+    return manifestCache;
 }
 
 // ===== IMAGES ARE PROVIDED BY METADATA =====
