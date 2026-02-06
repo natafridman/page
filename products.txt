@@ -1,7 +1,7 @@
-bolso,
-maletin,
-mochila,
-morral,
-necessaire,
-portadocumentos,
+bolso
+maletin
+mochila
+morral
+necessaire
+portadocumentos
 rinionera
