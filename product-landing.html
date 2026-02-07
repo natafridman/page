@@ -93,6 +93,220 @@
             letter-spacing: 0.05em;
         }
 
+        /* Hamburger Button */
+        .hamburger-btn {
+            position: absolute;
+            left: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        .hamburger-btn:hover {
+            opacity: 0.7;
+        }
+
+        .hamburger-btn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hamburger-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Hamburger Button */
+.hamburger-btn {
+    position: absolute;
+    left: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.hamburger-btn:hover {
+    opacity: 0.7;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hamburger-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Categories Menu */
+.categories-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    opacity: 0;
+}
+
+.categories-menu.active {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.categories-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.category-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    position: relative;
+}
+
+.category-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 2px;
+    background: var(--text-primary);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-link:hover {
+    opacity: 0.7;
+}
+
+.category-link:hover::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .hamburger-btn {
+        left: 1rem;
+    }
+    
+    .header-container {
+        padding: 0 1rem;
+    }
+    
+    .categories-menu.active {
+        max-height: 400px;
+    }
+    
+    .categories-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .category-link {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .category-link::after {
+        display: none;
+    }
+    
+    .category-link:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+}
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .hamburger-btn {
+                left: 1rem;
+            }
+            
+            .header-container {
+                padding: 0 1rem;
+            }
+            
+            .categories-menu.active {
+                max-height: 400px;
+            }
+            
+            .categories-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+            
+            .category-link {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .category-link::after {
+                display: none;
+            }
+            
+            .category-link:hover {
+                background: rgba(0, 0, 0, 0.05);
+            }
+        }
+
         .product-section {
             min-height: 100vh;
             display: flex;
@@ -674,6 +888,12 @@
     <!-- Header -->
     <header class="main-header">
         <div class="header-container">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menú de categorías">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
             <div class="logo">
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="8" y="12" width="24" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/>
@@ -683,6 +903,10 @@
                 <span class="logo-text">YAGO & NATA CO</span>
             </div>
         </div>
+        
+        <nav class="categories-menu" id="categoriesMenu">
+            <div class="categories-container" id="categoriesContainer"></div>
+        </nav>
     </header>
 
     </br>
@@ -766,89 +990,78 @@ const IMAGES_BASE_FOLDER = 'images/Categorias';
 
 // ===== LOAD ALL PRODUCTS FROM ALL CATEGORIES (USING MANIFEST) =====
 async function loadProducts() {
-    const container = document.getElementById('productsContainer');
-
+    console.log('📦 Cargando productos...');
+    
     try {
-        console.log('🔍 Cargando manifest.json...');
-
         const manifest = await loadManifest();
-        const categories = Object.keys(manifest);
-
-        console.log(`📁 Categorías encontradas: ${categories.length}`, categories);
-
-        if (categories.length === 0) {
-            container.innerHTML = `
-                <div class="loading">
-                    <p>No se encontraron categorías en el manifest</p>
-                </div>
-            `;
-            return;
-        }
-
-        let allProductsHTML = '';
+        const selectedCategory = getCategoryFromURL();
+        
+        console.log('🔍 Categoría seleccionada:', selectedCategory || 'TODAS');
+        
+        const productsContainer = document.getElementById('productsContainer');
+        productsContainer.innerHTML = '';
+        
         let productIndex = 0;
-
-        // Iterar categorías
-        for (const category of categories) {
-            console.log(`📂 Procesando categoría: ${category}`);
-
-            const products = manifest[category] || [];
-            console.log(`  └─ Productos encontrados: ${products.length}`, products);
-
-            // Iterar productos
+        
+        // Determinar qué categorías cargar
+        const categoriesToLoad = selectedCategory 
+            ? [selectedCategory] 
+            : Object.keys(manifest);
+        
+        console.log('📂 Categorías a cargar:', categoriesToLoad);
+        
+        for (const category of categoriesToLoad) {
+            // Verificar que la categoría existe en el manifest
+            if (!manifest[category]) {
+                console.warn(`⚠️ Categoría "${category}" no encontrada en manifest`);
+                continue;
+            }
+            
+            const products = manifest[category];
+            
             for (const productFolder of products) {
+                const metadataPath = `${IMAGES_BASE_FOLDER}/${category}/${productFolder}/metadata.txt`;
+                
                 try {
-                    const productPath = `${IMAGES_BASE_FOLDER}/${category}/${productFolder}`;
-                    const metadataPath = `${productPath}/metadata.txt`;
-
                     const metadataResponse = await fetch(metadataPath);
                     if (!metadataResponse.ok) {
-                        console.warn(`⚠️ No se encontró metadata.txt en ${productPath}`);
+                        console.warn(`Metadata no encontrado: ${metadataPath}`);
                         continue;
                     }
-
+                    
                     const metadataText = await metadataResponse.text();
                     const metadata = parseMetadata(metadataText);
-
-                    const availableImages = await getAvailableImages(productPath);
-
-                    const productHTML = createProductSection(
-                        metadata,
-                        category,
-                        productFolder,
+                    
+                    const availableImages = await getAvailableImages(`${IMAGES_BASE_FOLDER}/${category}/${productFolder}`);
+                    
+                    const sectionHTML = createProductSection(
+                        metadata, 
+                        category, 
+                        productFolder, 
                         productIndex,
                         availableImages
                     );
-
-                    allProductsHTML += productHTML;
+                    
+                    productsContainer.insertAdjacentHTML('beforeend', sectionHTML);
                     productIndex++;
-
+                    
                 } catch (error) {
-                    console.error(`    ❌ Error cargando producto ${productFolder}:`, error);
+                    console.error(`Error cargando producto ${productFolder}:`, error);
                 }
             }
         }
-
-        if (allProductsHTML) {
-            container.innerHTML = allProductsHTML;
-            console.log(`✅ Total de productos cargados: ${productIndex}`);
-        } else {
-            container.innerHTML = `
-                <div class="loading">
-                    <p>No se encontraron productos con metadata.txt</p>
-                </div>
-            `;
+        
+        if (productIndex === 0) {
+            productsContainer.innerHTML = '<div class="loading">No se encontraron productos para esta categoría.</div>';
         }
-
+        
+        console.log(`✅ ${productIndex} productos cargados`);
         initializeApp();
-
+        
     } catch (error) {
-        console.error('❌ Error fatal cargando productos:', error);
-        container.innerHTML = `
-            <div class="loading">
-                <p>Error al cargar productos. Verifica la consola para más detalles.</p>
-            </div>
-        `;
+        console.error('❌ Error cargando productos:', error);
+        const productsContainer = document.getElementById('productsContainer');
+        productsContainer.innerHTML = '<div class="loading">Error al cargar productos.</div>';
     }
 }
 
@@ -914,7 +1127,7 @@ function parseMetadata(text) {
                     .filter(Boolean);
             } else {
                 metadata[normalizedKey] = rawValue;
-            }
+            } 
         }
     });
     
@@ -1124,8 +1337,71 @@ function initializeApp() {
     console.log('✅ Aplicación inicializada correctamente');
 }
 
+// ===== MENU HAMBURGUESA Y CATEGORÍAS =====
+async function initializeMenu() {
+    const categoriesContainer = document.getElementById('categoriesContainer');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const categoriesMenu = document.getElementById('categoriesMenu');
+    
+    // Toggle menu al hacer click en hamburguesa
+    if (hamburgerBtn && categoriesMenu) {
+        hamburgerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            hamburgerBtn.classList.toggle('active');
+            categoriesMenu.classList.toggle('active');
+        });
+    }
+    
+    // Cerrar menú al hacer click fuera
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.main-header')) {
+            if (hamburgerBtn) hamburgerBtn.classList.remove('active');
+            if (categoriesMenu) categoriesMenu.classList.remove('active');
+        }
+    });
+    
+    // Cargar categorías desde manifest
+    try {
+        const manifest = await loadManifest();
+        const categories = Object.keys(manifest);
+        
+        if (categories.length === 0) {
+            return;
+        }
+        
+        categoriesContainer.innerHTML = '';
+        
+        categories.forEach(category => {
+            const link = document.createElement('a');
+            link.href = `?categoria=${encodeURIComponent(category)}`;
+            link.className = 'category-link';
+            link.textContent = category.toUpperCase();
+            categoriesContainer.appendChild(link);
+        });
+        
+        // Logo clickeable para volver a la página principal (sin filtros)
+        const logo = document.querySelector('.logo');
+        if (logo) {
+            logo.addEventListener('click', function() {
+                window.location.href = window.location.pathname;
+            });
+        }
+        
+    } catch (error) {
+        console.error('Error cargando manifest:', error);
+    }
+}
+
+// ===== OBTENER CATEGORÍA DE LA URL =====
+function getCategoryFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('categoria');
+}
+
 // ===== START APP =====
 document.addEventListener('DOMContentLoaded', function() {
+    initializeMenu();
     loadProducts();
 });
 </script>
