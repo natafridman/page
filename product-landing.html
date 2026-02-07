@@ -829,6 +829,143 @@
                 grid-column: 1;
             }
         }
+
+        /* Loading Overlay Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-light);
+            z-index: 9999;
+            display: flex;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            pointer-events: all;
+        }
+
+        .loading-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-product-skeleton {
+            min-height: 100vh;
+            display: flex;
+            width: 100%;
+        }
+
+        .loading-hero-side,
+        .loading-gallery-side {
+            width: 50%;
+            position: relative;
+        }
+
+        .loading-hero-side {
+            background: linear-gradient(
+                90deg,
+                #f0f0f0 0%,
+                #f8f8f8 50%,
+                #f0f0f0 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        .loading-gallery-side {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .loading-number {
+            width: 150px;
+            height: 120px;
+            background: linear-gradient(
+                90deg,
+                #e0e0e0 0%,
+                #f0f0f0 50%,
+                #e0e0e0 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .loading-text {
+            width: 100%;
+            max-width: 600px;
+            height: 100px;
+            background: linear-gradient(
+                90deg,
+                #e0e0e0 0%,
+                #f0f0f0 50%,
+                #e0e0e0 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            margin-bottom: 3rem;
+            border-radius: 8px;
+        }
+
+        .loading-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 700px;
+        }
+
+        .loading-gallery-item {
+            aspect-ratio: 1;
+            background: linear-gradient(
+                90deg,
+                #e0e0e0 0%,
+                #f0f0f0 50%,
+                #e0e0e0 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            border-radius: 12px;
+        }
+
+        .loading-gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .loading-gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .loading-gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .loading-gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .loading-gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .loading-gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .loading-product-skeleton {
+                flex-direction: column;
+            }
+            
+            .loading-hero-side,
+            .loading-gallery-side {
+                width: 100%;
+            }
+            
+            .loading-hero-side {
+                min-height: 50vh;
+            }
+            
+            .loading-gallery-side {
+                padding: 3rem 2rem;
+            }
+        }
+
         /* Modal Styles */
         .modal {
             display: none;
@@ -958,7 +1095,23 @@
 
     <!-- Products Container - Will be populated dynamically -->
     <main id="productsContainer">
-        <div class="loading">Cargando productos...</div>
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-product-skeleton">
+                <div class="loading-gallery-side">
+                    <div class="loading-number"></div>
+                    <div class="loading-text"></div>
+                    <div class="loading-gallery">
+                        <div class="loading-gallery-item"></div>
+                        <div class="loading-gallery-item"></div>
+                        <div class="loading-gallery-item"></div>
+                        <div class="loading-gallery-item"></div>
+                        <div class="loading-gallery-item"></div>
+                        <div class="loading-gallery-item"></div>
+                    </div>
+                </div>
+                <div class="loading-hero-side"></div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -1036,6 +1189,8 @@ const IMAGES_BASE_FOLDER = 'images/Categorias';
 async function loadProducts() {
     console.log('📦 Cargando productos...');
     
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
     try {
         const manifest = await loadManifest();
         const selectedCategory = getCategoryFromURL();
@@ -1043,7 +1198,11 @@ async function loadProducts() {
         console.log('🔍 Categoría seleccionada:', selectedCategory || 'TODAS');
         
         const productsContainer = document.getElementById('productsContainer');
+        const existingOverlay = productsContainer.querySelector('.loading-overlay');
         productsContainer.innerHTML = '';
+        if (existingOverlay) {
+            productsContainer.appendChild(existingOverlay);
+        }
         
         let productIndex = 0;
         
@@ -1096,7 +1255,17 @@ async function loadProducts() {
         }
         
         if (productIndex === 0) {
-            productsContainer.innerHTML = '<div class="loading">No se encontraron productos para esta categoría.</div>';
+            productsContainer.innerHTML = '<div class="loading-overlay" id="loadingOverlay"><div class="loading-product-skeleton"><div class="loading-hero-side"></div><div class="loading-gallery-side"><div style="padding: 2rem; text-align: center; font-size: 1.2rem; color: var(--text-secondary);">No se encontraron productos para esta categoría.</div></div></div></div>';
+        } else {
+            // Ocultar el loading overlay después de cargar
+            if (loadingOverlay) {
+                setTimeout(() => {
+                    loadingOverlay.classList.add('hide');
+                    setTimeout(() => {
+                        loadingOverlay.remove();
+                    }, 500);
+                }, 300);
+            }
         }
         
         console.log(`✅ ${productIndex} productos cargados`);
@@ -1105,7 +1274,7 @@ async function loadProducts() {
     } catch (error) {
         console.error('❌ Error cargando productos:', error);
         const productsContainer = document.getElementById('productsContainer');
-        productsContainer.innerHTML = '<div class="loading">Error al cargar productos.</div>';
+        productsContainer.innerHTML = '<div class="loading-overlay" id="loadingOverlay"><div class="loading-product-skeleton"><div class="loading-hero-side"></div><div class="loading-gallery-side"><div style="padding: 2rem; text-align: center; font-size: 1.2rem; color: var(--text-secondary);">Error al cargar productos.</div></div></div></div>';
     }
 }
 
@@ -1200,27 +1369,37 @@ function createProductSection(metadata, category, productFolder, index, availabl
                  alt="${metadata.title} - Imagen ${idx + 1}">
         </div>
     `).join('');
+
+    const isOdd = (index + 1) % 2 !== 0;
+    const flexDirection = isOdd ? 'row-reverse' : 'row';
+
+    // AGREGAR TODAS ESTAS LÍNEAS:
+    const titlePosition = isOdd ? 'left: 3%; right: auto;' : 'right: 3%; left: auto;';
+    const titleTransform = isOdd ? 'translateX(-50px)' : 'translateX(50px)';
+    const textAlign = isOdd ? 'right' : 'left';
+    const numberPosition = isOdd ? 'left: auto; right: 2rem;' : 'left: 2rem; right: auto;';
+    const contentMargin = isOdd ? 'margin-left: auto; margin-right: 0;' : 'margin-left: 0; margin-right: auto;';
     
     return `
-        <section class="product-section" data-product="${productFolder}">
+        <section class="product-section" data-product="${productFolder}" style="flex-direction: ${flexDirection};">
             <div class="hero-side">
                 <div class="hero-image-wrapper">
                     ${heroMedia}
-                    <div class="product-title-overlay">
+                    <div class="product-title-overlay" style="${titlePosition} transform: ${titleTransform};">
                         <div class="product-subtitle">${metadata.subtitle || category.toUpperCase()}</div>
                         <h2>${metadata.title || 'Producto'}</h2>
                     </div>
                 </div>
             </div>
 
-            <div class="gallery-side">
-                <div class="accent-number">${metadata.code || String(index + 1).padStart(2, '0')}</div>
+            <div class="gallery-side" style="text-align: ${textAlign};">
+                <div class="accent-number" style="${numberPosition}">${metadata.code || String(index + 1).padStart(2, '0')}</div>
 
-                <div class="description-text">
+                <div class="description-text" style="${contentMargin}">
                     <p>${metadata.description || 'Descripción del producto.'}</p>
                 </div>
 
-                <div class="gallery-grid">
+                <div class="gallery-grid" style="${contentMargin}">
                     ${galleryImages}
                 </div>
             </div>
