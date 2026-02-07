@@ -174,7 +174,7 @@
 /* Categories Menu */
 .categories-menu {
     position: absolute;
-    top: 70px;
+    /* top: 70px; */
     left: 0;
     right: 0;
     background: rgba(255, 255, 255, 0.95);
@@ -314,8 +314,52 @@
             scroll-snap-align: start;
         }
 
+        /* Productos impares: Video izquierda, Texto derecha */
+        .product-section:nth-child(odd) {
+            flex-direction: row;
+        }
+        
+        .product-section:nth-child(odd) .gallery-side {
+            text-align: left;
+        }
+        
+        .product-section:nth-child(odd) .accent-number {
+            left: 2rem;
+            right: auto;
+        }
+        
+        .product-section:nth-child(odd) .description-text {
+            margin-left: 0;
+            margin-right: auto;
+        }
+        
+        .product-section:nth-child(odd) .gallery-grid {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        /* Productos pares: Video derecha, Texto izquierda */
         .product-section:nth-child(even) {
             flex-direction: row-reverse;
+        }
+        
+        .product-section:nth-child(even) .gallery-side {
+            text-align: right;
+        }
+        
+        .product-section:nth-child(even) .accent-number {
+            left: auto;
+            right: 2rem;
+        }
+        
+        .product-section:nth-child(even) .description-text {
+            margin-left: auto;
+            margin-right: 0;
+        }
+        
+        .product-section:nth-child(even) .gallery-grid {
+            margin-left: auto;
+            margin-right: 0;
         }
 
         .hero-side {
@@ -325,13 +369,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            max-height: 100dvh;
         }
 
         .hero-image-wrapper {
             width: 100%;
             height: 100%;
             position: relative;
-            background: var(--surface-gray);
+            /* background: var(--surface-gray); */
         }
 
         .hero-image {
@@ -488,7 +533,6 @@
         .accent-number {
             position: absolute;
             top: 2rem;
-            left: 2rem;
             font-family: 'Inter', sans-serif;
             font-size: clamp(5rem, 10vw, 8rem);
             font-weight: 600;
@@ -579,7 +623,7 @@
 
             .product-title-overlay {
                 padding: 1.2rem 1.8rem;
-                right: 2% !important;
+                /* right: 2% !important; */
                 border-radius: 10px;
             }
 
@@ -1333,7 +1377,7 @@ function initializeApp() {
             contactForm.reset();
         });
     }
-    
+
     console.log('✅ Aplicación inicializada correctamente');
 }
 
